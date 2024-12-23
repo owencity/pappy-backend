@@ -1,10 +1,9 @@
 package com.kyu.pappy.services;
 
-import com.kyu.pappy.dtos.UserDto;
+import com.kyu.pappy.model.user.UserDto;
 import com.kyu.pappy.entities.User;
-import com.kyu.pappy.exceptions.user.UserAlreadyExistException;
+import com.kyu.pappy.config.exceptions.user.UserAlreadyExistException;
 import com.kyu.pappy.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
