@@ -1,6 +1,6 @@
 package com.kyu.pappy.controllers;
 
-import com.kyu.pappy.dtos.UserDto;
+import com.kyu.pappy.model.user.UserDto;
 import com.kyu.pappy.services.UserSignUpService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

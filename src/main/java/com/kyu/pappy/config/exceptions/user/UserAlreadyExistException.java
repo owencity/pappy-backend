@@ -1,9 +1,9 @@
-package com.kyu.pappy.exceptions.user;
+package com.kyu.pappy.config.exceptions.user;
 
-import com.kyu.pappy.exceptions.ClinentErrorException;
+import com.kyu.pappy.config.exceptions.ClientErrorException;
 import org.springframework.http.HttpStatus;
 
-public class UserAlreadyExistException extends ClinentErrorException {
+public class UserAlreadyExistException extends ClientErrorException {
 
     public UserAlreadyExistException() {
         super(HttpStatus.CONFLICT, "User Not Found");

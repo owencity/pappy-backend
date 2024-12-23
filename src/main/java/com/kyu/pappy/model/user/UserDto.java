@@ -1,4 +1,4 @@
-package com.kyu.pappy.dtos;
+package com.kyu.pappy.model.user;
 
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.enums.Gender;
