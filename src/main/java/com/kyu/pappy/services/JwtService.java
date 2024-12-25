@@ -39,5 +39,4 @@ public class JwtService {
             throw e;
         }
     }
-
 }
