@@ -29,14 +29,6 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserNotFoundException(userEmail));
     }
 
-    public UserAuthenticationResponse authenticate(String username, String password) {
-        var user =
-                userRepository
-                        .findByUserEmail(username)
-                        .orElseThrow(() -> new UserNotFoundException(username));
-    if(passwordEncoder.matches(password, user.getPassword())) {
-        var accessToken = jwtService.generateAccessToken(user);
-        return new UserAuthenticationResponse(accessToken);
+
     }
-    }
-}
+
