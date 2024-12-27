@@ -1,35 +1,46 @@
 package com.kyu.pappy.security;
 
+import com.kyu.pappy.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final String username;
-    private final String role;
+    private final User user;
 
-    public CustomUserDetails(String username, String role) {
-        this.username = username;
-        this.role = role;
+    public CustomUserDetails(User user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        Collection<GrantedAuthority> collection = new ArrayList<>();
+        collection.add(new GrantedAuthority() {
+
+            @Override
+
+            public String getAuthority() {
+
+                return String.valueOf(user.getRole());
+            }
+        });
+
+        return collection;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUserEmail();
     }
 
     @Override

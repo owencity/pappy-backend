@@ -1,5 +1,6 @@
 package com.kyu.pappy.security;
 
+import com.kyu.pappy.enums.Role;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,7 @@ public class JwtUtil {
     public String createJwt(String category, String username, String role, long expireMs) {
         return Jwts.builder()
                 .claim("category", category)
-                .claim("usernem", username)
+                .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expireMs))

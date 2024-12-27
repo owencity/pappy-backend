@@ -1,14 +1,22 @@
 package com.kyu.pappy.config;
 
+import com.kyu.pappy.repositories.UserRepository;
+import com.kyu.pappy.security.JwtFilter;
+import com.kyu.pappy.security.JwtUtil;
+import com.kyu.pappy.security.LoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -16,18 +24,82 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
+
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JwtUtil jwtUtil, UserRepository userRepository
+    ) {
+
+        this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
+    }
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll() // 모든 요청 허용
-                ).httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable);
-                 // HTTP Basic 인증 비활성화
+                .csrf((auth) -> auth.disable());
+
+        http
+                .formLogin((auth) -> auth.disable());
+
+        http
+                .httpBasic((auth) -> auth.disable());
+
+        http
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN") // admin 요청은 ADMIN 역할이 있어야 허용
+                        .anyRequest().authenticated()); // 그 외 요청은 모두 허용
+
+
+
+        http
+                .addFilterBefore(new JwtFilter(jwtUtil, userRepository), LoginFilter.class);
+        // JwtFilter를 UsernamePasswordAuthenticationFilter 전에 추가
+        http
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        // LoginFilter를 UsernamePasswordAuthenticationFilter 전에 추가
+        // CustomLogoutFilter를 LogoutFilter 전에 추가
+
+        http
+                .sessionManagement((session) -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));	// 세션 관리 설정: 상태가 없는 세션을 사용하도록 설정합니다.
+
+
 
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .anyRequest().permitAll()// 모든 요청 허용
+//                ).httpBasic(AbstractHttpConfigurer::disable)
+//                .formLogin(AbstractHttpConfigurer::disable)
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .addFilterBefore(new JwtFilter(jwtUtil, userRepository), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+//                 // HTTP Basic 인증 비활성화
+//
+//        return http.build();
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

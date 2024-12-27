@@ -1,5 +1,7 @@
 package com.kyu.pappy.security;
 
+import com.kyu.pappy.entities.User;
+import com.kyu.pappy.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,16 +9,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
-
-    public JwtFilter(JwtUtil jwtUtil) {
+    public JwtFilter(JwtUtil jwtUtil, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -32,11 +36,12 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return ;
         }
+        String email = jwtUtil.getUsername(token);
 
-        String userId = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
+        User user = userRepository.findByUserEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        CustomUserDetails customUserDetails = new CustomUserDetails(userId, role);
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null , customUserDetails.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authToken);
