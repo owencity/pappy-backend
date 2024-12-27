@@ -3,6 +3,7 @@ package com.kyu.pappy.security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kyu.pappy.enums.Role;
 import com.kyu.pappy.model.user.UserAuthenticationResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
+
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
@@ -38,13 +40,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(request.getInputStream());
-            String username = jsonNode.get("userEmail").textValue();
+            String userEmail = jsonNode.get("userEmail").textValue();
             String password = jsonNode.get("password").textValue();
-            String role = jsonNode.get("role").textValue();
 
-            List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
 
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, authorities);
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userEmail, password , null);
 
             return authenticationManager.authenticate(authToken);
         } catch (IOException e) {
@@ -65,7 +65,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String access = jwtUtil.createJwt("access", username, role, 600000L);
         String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
 
-        UserAuthenticationResponse userAuthenticationResponse = new UserAuthenticationResponse(access, refresh);
+        UserAuthenticationResponse userAuthenticationResponse   = new UserAuthenticationResponse(access, refresh);
 
         response.setHeader("access", access);
         response.addHeader("Authorization", access);
