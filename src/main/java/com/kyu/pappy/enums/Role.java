@@ -6,13 +6,14 @@ public enum Role {
     USER("ROLE_USER"),
     ADMIN("ROLE_ADMIN");
 
-    private final String code;
-    Role(String code) {
-        this.code = code;
+    private final String authority;
+
+    Role(String authority) {
+        this.authority = authority;
     }
 
     public String getCode() {
-        return code;
+        return authority;
     }
 
     public static Role fromCode(String code)

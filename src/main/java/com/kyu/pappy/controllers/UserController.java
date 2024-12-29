@@ -1,7 +1,7 @@
 package com.kyu.pappy.controllers;
 
 import com.kyu.pappy.model.user.UserAuthenticationResponse;
-import com.kyu.pappy.model.user.UserDto;
+import com.kyu.pappy.dtos.UserDto;
 import com.kyu.pappy.services.UserSignUpService;
 import com.kyu.pappy.utils.TokenResponseHelper;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
