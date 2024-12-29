@@ -4,12 +4,16 @@ import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.model.user.UserAuthenticationResponse;
 import com.kyu.pappy.repositories.UserRepository;
+import com.kyu.pappy.security.CustomUserDetails;
 import io.jsonwebtoken.Jwt;
+import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -25,7 +29,10 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        return null;
+        User user = userRepository.findByUserEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        return new CustomUserDetails(user);
     }
 
 

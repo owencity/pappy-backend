@@ -1,7 +1,7 @@
 package com.kyu.pappy.services;
 
 import com.kyu.pappy.model.user.UserAuthenticationResponse;
-import com.kyu.pappy.model.user.UserDto;
+import com.kyu.pappy.dtos.UserDto;
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.config.exceptions.user.UserAlreadyExistException;
 import com.kyu.pappy.repositories.UserRepository;
@@ -9,8 +9,6 @@ import com.kyu.pappy.security.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class UserSignUpService {

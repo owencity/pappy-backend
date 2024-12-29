@@ -1,11 +1,10 @@
-package com.kyu.pappy.model.user;
+package com.kyu.pappy.dtos;
 
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.enums.Gender;
 import com.kyu.pappy.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 
