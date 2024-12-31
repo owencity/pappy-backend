@@ -3,8 +3,6 @@ package com.kyu.pappy.security;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kyu.pappy.enums.Role;
-import com.kyu.pappy.model.user.UserAuthenticationResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -16,14 +14,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -68,12 +63,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         response.setHeader("access", access);
         response.addHeader("Authorization", access);
-        response.addCookie(createCookie("refresh", refresh));
+        response.addCookie(createCookie(refresh));
         response.setStatus(HttpStatus.OK.value());
     }
 
-    private Cookie createCookie(String key, String value) {
-        Cookie cookie = new Cookie(key, value);
+    private Cookie createCookie(String value) {
+        Cookie cookie = new Cookie("refresh", value);
         cookie.setMaxAge(24*60*60);
         cookie.setSecure(true);
         cookie.setPath("/");

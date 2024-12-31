@@ -26,7 +26,6 @@ public class UserSignUpService {
     }
 
 
-    // 회원가입시 bcrypt 추가(시큐리티 추후 JWT적용시 같이 적용) , 중복 이메일 예외 추가 할것
     // 회원가입 완료시 JWT 발급 하면서 로그인 고려
     public UserAuthenticationResponse registerUser(UserDto userDto) {
 
@@ -49,7 +48,7 @@ public class UserSignUpService {
         String accessToken =  jwtUtil.createJwt("access", userEmail, String.valueOf(user.getRole()), 600000L);
         String refreshToken = jwtUtil.createJwt("refresh", userEmail, String.valueOf(user.getRole()), 86400000L);
 
-        // JWT 토큰을 dto객체로 반환
+        // JWT 토큰을 dto 객체로 반환
         return new UserAuthenticationResponse(accessToken, refreshToken);
     }
 

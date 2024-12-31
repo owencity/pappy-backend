@@ -3,6 +3,7 @@ package com.kyu.pappy.controllers;
 import com.kyu.pappy.dtos.ProductDto;
 import com.kyu.pappy.entities.Product;
 import com.kyu.pappy.entities.User;
+import com.kyu.pappy.model.pagenation.PageResponse;
 import com.kyu.pappy.model.product.ProductPatchRequestBody;
 import com.kyu.pappy.repositories.ProductRepository;
 import com.kyu.pappy.services.ProductService;
@@ -20,19 +21,23 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductService productService;
-    private final ProductRepository productRepository;
 
-    public ProductController(ProductService productService, ProductRepository productRepository) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.productRepository = productRepository;
     }
 
     @GetMapping
-    public List<ProductDto> getAllProducts () {
-        List<Product> products = productRepository.findAll();
-        return products.stream()
-                .map(ProductDto::from)
-                .collect(Collectors.toList());
+    public PageResponse<ProductDto> getAllProducts (
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return productService.getAllProductPaged(page, size);
+    }
+
+    @GetMapping("/{productId}")
+    public ProductDto getProductById (@PathVariable long productId) {
+
+        return productService.getProductById(productId);
     }
 
     @PostMapping("/create")
