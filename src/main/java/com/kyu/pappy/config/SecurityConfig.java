@@ -63,8 +63,6 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN") // admin 요청은 ADMIN 역할이 있어야 허용
                         .anyRequest().authenticated()); // 그 외 요청은 모두 허용
 
-
-
         http
                 .addFilterBefore(new JwtFilter(jwtUtil, userRepository), LoginFilter.class);
         // JwtFilter를 UsernamePasswordAuthenticationFilter 전에 추가
@@ -77,26 +75,8 @@ public class SecurityConfig {
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));	// 세션 관리 설정: 상태가 없는 세션을 사용하도록 설정합니다.
 
-
-
         return http.build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .anyRequest().permitAll()// 모든 요청 허용
-//                ).httpBasic(AbstractHttpConfigurer::disable)
-//                .formLogin(AbstractHttpConfigurer::disable)
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(new JwtFilter(jwtUtil, userRepository), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
-//                 // HTTP Basic 인증 비활성화
-//
-//        return http.build();
-//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
