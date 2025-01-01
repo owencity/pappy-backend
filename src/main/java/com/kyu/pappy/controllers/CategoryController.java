@@ -3,6 +3,8 @@ package com.kyu.pappy.controllers;
 import com.kyu.pappy.dtos.CategoryDto;
 import com.kyu.pappy.services.CategoryService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,7 +16,8 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    public ResponseEntity<?> createCategory(CategoryDto categoryName) {
+    @PostMapping("/create-category")
+    public ResponseEntity<?> createCategory(@RequestBody CategoryDto categoryName) {
         categoryService.createCategory(categoryName);
         return ResponseEntity.ok().build();
     }
