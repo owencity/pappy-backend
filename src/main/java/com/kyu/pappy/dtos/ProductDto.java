@@ -9,6 +9,7 @@ public record ProductDto(
         String productName,
         String productContent,
         ProductStatus status,
+        Integer categoryId,
         int price,
         int quantity,
         Date productDate
@@ -19,6 +20,7 @@ public record ProductDto(
                 product.getProductName(),
                 product.getProductContent(),
                 product.getStatus(),
+                null,
                 product.getPrice(),
                 product.getQuantity(),
                 product.getCreatedAt()
