@@ -1,0 +1,46 @@
+[33m6219cf2[m[33m ([m[1;36mHEAD[m[33m)[m 리드미 변경
+[33m8db98bb[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m readme
+[33m0c76902[m readme
+[33m4caf1f2[m comment 추가
+[33m87f2e17[m 리드미 변경
+[33m64012b9[m 리드미 변경
+[33mb4059d2[m 연관관계 매핑 체크
+[33m5724c00[m comment 추가
+[33m228c524[m campaign 변경
+[33m040a961[m 연관관계 매핑 체크
+[33m0cb09ee[m story 추가
+[33m1074c56[m campaign 변경
+[33m2c3ea7f[m 기획변경, 부분 API 변경시작
+[33me852893[m story 추가
+[33m0944f97[m review 작성
+[33m255ea45[m 기획변경, 부분 API 변경시작
+[33m77fe979[m authentication 관련 코드 수정
+[33mf13825b[m pagination 테스트 코드 작성
+[33mb208b41[m review 작성
+[33m56f6145[m authentication 관련 코드 수정
+[33m3886a7f[m pagination 테스트 코드 작성
+[33mbbd86d6[m category 작성, 유니크 설정
+[33m3b4e5e2[m category 작성, 유니크 설정
+[33m00bab5d[m Authentication Manager 이슈 해결
+[33md4bb90e[m Authentication Manager 이슈 해결
+[33m0f3d6ea[m 회원가입 후 바로 로그인 위한 jwt 로직은 완성 테스트필요
+[33m47899e7[m 회원가입 후 바로 로그인 위한 jwt 로직은 완성 테스트필요
+[33m350b79a[m 회원가입 완료 , role값 안들어오는거 check
+[33m4075ad5[m 회원가입 완료 , role값 안들어오는거 check
+[33mbc3c5f6[m jwt 관련 코드 작성 70%
+[33m7f6dadb[m jwt 관련 코드 작성 70%
+[33md3ff2f8[m docker 컴포즈 작성 , db 연결
+[33m958c750[m docker 컴포즈 작성 , db 연결
+[33m51dd7c1[m 회원가입 진행중...
+[33m180dfc7[m 회원가입 진행중...
+[33mcee3b7a[m Merge branch 'main' of https://github.com/owencity/pappy-backend
+[33m9627a60[m Merge branch 'main' of https://github.com/owencity/pappy-backend
+[33me8bfe75[m docker compose 작성
+[33m58a88a0[m docker compose 작성
+[33m74b63e4[m Update README.md
+[33mff2311a[m Update README.md
+[33m9007e91[m Merge branch 'main' of https://github.com/owencity/pappy-backend
+[33m1cfc39c[m Merge branch 'main' of https://github.com/owencity/pappy-backend
+[33md61f9a1[m entity 작성
+[33m8370946[m Initial commit
+[33mea834b4[m Initial commit

@@ -7,3 +7,4 @@
 
 
 - JDK17, SPRING BOOT
+- 리드미 테스트
