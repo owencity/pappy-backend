@@ -54,7 +54,7 @@ public class ProductController {
     @PatchMapping("/update/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductPatchRequestBody productPatchRequestBody , Authentication authentication) {
 
-        var currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        CustomUserDetails  currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
         String username = currentUserDetails.getUsername();
         var updateProduct = productService.updateProduct(productId , productPatchRequestBody, username);
         return ResponseEntity.ok(updateProduct);

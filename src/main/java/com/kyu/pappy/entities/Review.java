@@ -2,10 +2,15 @@ package com.kyu.pappy.entities;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
+@Getter
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class Review {
 
     @Id
@@ -21,6 +26,7 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
     private String comment;
     private Date createdAt;
 }

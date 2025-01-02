@@ -51,7 +51,7 @@ public class ProductService {
 
     public ProductDto createProduct (ProductDto dto) {
 
-        Category category = categoryRepository.findById(dto.categoryId().longValue())
+        Category category = categoryRepository.findById(dto.categoryId())
                 .orElseThrow(() -> new IllegalArgumentException("category not found"));
 
         Product product = ProductDto.to(dto , category);
@@ -70,7 +70,6 @@ public class ProductService {
         userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
 
         findProduct.changeContent(productPatchRequestBody.body());
-
         /*
             영속성 컨텍스트에서 변경감지 -> flush 시점에 UPDATE 쿼리
 

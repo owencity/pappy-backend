@@ -10,7 +10,7 @@ public record ProductDto(
         String productName,
         String productContent,
         ProductStatus status,
-        Integer categoryId,
+        Long categoryId,
         int price,
         int quantity,
         Date productDate
@@ -21,7 +21,7 @@ public record ProductDto(
                 product.getProductName(),
                 product.getProductContent(),
                 product.getStatus(),
-                product.getCategory().getId().intValue(),
+                product.getCategory().getId(),
                 product.getPrice(),
                 product.getQuantity(),
                 product.getCreatedAt()
