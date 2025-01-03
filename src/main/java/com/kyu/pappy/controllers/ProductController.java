@@ -6,6 +6,7 @@ import com.kyu.pappy.entities.User;
 import com.kyu.pappy.model.pagenation.PageResponse;
 import com.kyu.pappy.model.product.ProductPatchRequestBody;
 import com.kyu.pappy.repositories.ProductRepository;
+import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +29,14 @@ public class ProductController {
 
     @GetMapping
     public PageResponse<ProductDto> getAllProducts (
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
     ) {
         return productService.getAllProductPaged(page, size);
     }
 
     @GetMapping("/{productId}")
-    public ProductDto getProductById (@PathVariable long productId) {
+    public ProductDto getProductById (@PathVariable("productId") long productId) {
 
         return productService.getProductById(productId);
     }
@@ -51,10 +52,11 @@ public class ProductController {
     }
 
     @PatchMapping("/update/{productId}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductPatchRequestBody productPatchRequestBody , Authentication authentication) {
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductPatchRequestBody productPatchRequestBody , Authentication authentication) {
 
-        var currentUser = (User) authentication.getPrincipal();
-        var updateProduct = productService.updateProduct(productId , productPatchRequestBody, currentUser);
+        var currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        String username = currentUserDetails.getUsername();
+        var updateProduct = productService.updateProduct(productId , productPatchRequestBody, username);
         return ResponseEntity.ok(updateProduct);
     }
 

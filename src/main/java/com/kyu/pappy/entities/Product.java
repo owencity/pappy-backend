@@ -4,7 +4,9 @@ import com.kyu.pappy.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,9 +22,6 @@ public class Product {
     private String productName;
     private String productContent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -37,6 +36,9 @@ public class Product {
     private Date createdAt;
 
     public void changeContent(String content) {
-        this.productContent = productContent;
+        this.productContent = content;
     }
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> ReviewList = new ArrayList<>();
 }

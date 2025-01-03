@@ -35,7 +35,7 @@ public class User {
     private Date createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private  List<Product> productList = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
 
 }

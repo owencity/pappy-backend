@@ -1,9 +1,7 @@
 package com.kyu.pappy.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JacksonInject;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -14,8 +12,15 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-    private Long productId;
+    // 하나의 사용자가 여러개의 리뷰
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // 하나의 상품에 여러개의 리뷰
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
     private String comment;
     private Date createdAt;
 }
