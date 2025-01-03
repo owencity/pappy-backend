@@ -1,5 +1,6 @@
 package com.kyu.pappy.dtos;
 
+import com.kyu.pappy.entities.Category;
 import com.kyu.pappy.entities.Product;
 import com.kyu.pappy.enums.ProductStatus;
 
@@ -20,18 +21,19 @@ public record ProductDto(
                 product.getProductName(),
                 product.getProductContent(),
                 product.getStatus(),
-                null,
+                product.getCategory().getId().intValue(),
                 product.getPrice(),
                 product.getQuantity(),
                 product.getCreatedAt()
         );
     }
 
-    public static Product to(ProductDto dto) {
+    public static Product to(ProductDto dto, Category category) {
         return Product.builder()
                 .productName(dto.productName)
                 .productContent(dto.productContent)
                 .status(dto.status)
+                .category(category)
                 .price(dto.price)
                 .quantity(dto.quantity)
                 .createdAt(new Date())
