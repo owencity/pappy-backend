@@ -1,9 +1,9 @@
 package com.kyu.pappy.repositories;
 
-import com.kyu.pappy.entities.Category;
+import com.kyu.pappy.entities.Region;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface VolunteerRepository extends JpaRepository<Region, Long> {
 
     boolean existsByCategoryName(String categoryName);
 

@@ -1,8 +1,8 @@
 package com.kyu.pappy.repositories;
 
-import com.kyu.pappy.entities.Review;
+import com.kyu.pappy.entities.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Comment, Long> {
 
 }

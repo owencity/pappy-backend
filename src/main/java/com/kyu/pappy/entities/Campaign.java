@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class Product {
+public class Campaign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +24,8 @@ public class Product {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     private int price;
     private int quantity;
@@ -40,5 +40,5 @@ public class Product {
     }
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> ReviewList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 }

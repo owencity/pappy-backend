@@ -1,6 +1,6 @@
 package com.kyu.pappy.dtos;
 
-import com.kyu.pappy.entities.Category;
+import com.kyu.pappy.entities.Region;
 
 import java.util.Date;
 
@@ -9,16 +9,16 @@ public record CategoryDto(
         String categoryName,
         Date createdDate
 ) {
-    public static CategoryDto from(Category category) {
+    public static CategoryDto from(Region region) {
         return new CategoryDto(
-                category.getId(),
-                category.getCategoryName(),
+                region.getId(),
+                region.getCategoryName(),
                 null
         );
     }
 
-    public static Category to(CategoryDto categoryDto) {
-        return Category.builder()
+    public static Region to(CategoryDto categoryDto) {
+        return Region.builder()
                 .id(categoryDto.id())
                 .categoryName(categoryDto.categoryName())
                 .createdAt(new Date())

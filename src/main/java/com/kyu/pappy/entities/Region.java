@@ -12,16 +12,16 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class Category {
+public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String categoryName;
+    private String RegionName;
     private Date createdAt;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Campaign> campaigns = new ArrayList<>();
 }

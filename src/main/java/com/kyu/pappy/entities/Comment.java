@@ -1,8 +1,8 @@
 package com.kyu.pappy.entities;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.mapping.Join;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Review {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Review {
     // 하나의 상품에 여러개의 리뷰
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private Campaign campaign;
 
     private String comment;
     private Date createdAt;

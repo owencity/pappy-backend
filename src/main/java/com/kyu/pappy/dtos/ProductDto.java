@@ -1,7 +1,7 @@
 package com.kyu.pappy.dtos;
 
-import com.kyu.pappy.entities.Category;
-import com.kyu.pappy.entities.Product;
+import com.kyu.pappy.entities.Region;
+import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.enums.ProductStatus;
 
 import java.util.Date;
@@ -16,24 +16,24 @@ public record ProductDto(
         Date productDate
 ) {
 
-    public static ProductDto from(Product product) {
+    public static ProductDto from(Campaign campaign) {
         return new ProductDto(
-                product.getProductName(),
-                product.getProductContent(),
-                product.getStatus(),
-                product.getCategory().getId(),
-                product.getPrice(),
-                product.getQuantity(),
-                product.getCreatedAt()
+                campaign.getProductName(),
+                campaign.getProductContent(),
+                campaign.getStatus(),
+                campaign.getRegion().getId(),
+                campaign.getPrice(),
+                campaign.getQuantity(),
+                campaign.getCreatedAt()
         );
     }
 
-    public static Product to(ProductDto dto, Category category) {
-        return Product.builder()
+    public static Campaign to(ProductDto dto, Region region) {
+        return Campaign.builder()
                 .productName(dto.productName)
                 .productContent(dto.productContent)
                 .status(dto.status)
-                .category(category)
+                .region(region)
                 .price(dto.price)
                 .quantity(dto.quantity)
                 .createdAt(new Date())

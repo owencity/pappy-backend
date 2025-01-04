@@ -1,15 +1,13 @@
 package com.kyu.pappy.services;
 
-import com.kyu.pappy.config.exceptions.user.UserNotAllowException;
 import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
-import com.kyu.pappy.dtos.CategoryDto;
 import com.kyu.pappy.dtos.ProductDto;
-import com.kyu.pappy.entities.Category;
-import com.kyu.pappy.entities.Product;
+import com.kyu.pappy.entities.Campaign;
+import com.kyu.pappy.entities.Region;
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.model.pagenation.PageResponse;
 import com.kyu.pappy.model.product.ProductPatchRequestBody;
-import com.kyu.pappy.repositories.CategoryRepository;
+import com.kyu.pappy.repositories.VolunteerRepository;
 import com.kyu.pappy.repositories.ProductRepository;
 import com.kyu.pappy.repositories.UserRepository;
 import com.kyu.pappy.utils.PaginationUtils;
@@ -18,47 +16,44 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
-public class ProductService {
+public class VolunteerService {
 
-    private final ProductRepository  productRepository;
-    private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
+    private final VolunteerRepository volunteerRepository;
 
     public PageResponse<ProductDto> getAllProductPaged(int page, int size) {
-        List<Product> allProducts = productRepository.findAll();
+        List<Campaign> allCampaigns = productRepository.findAll();
 
-        List<ProductDto> allProductDto = allProducts.stream()
+        List<ProductDto> allProductDto = allCampaigns.stream()
                 .map(ProductDto::from)
                 .toList();
 
         return PaginationUtils.toPageResponse(allProductDto, page, size);
     }
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
+    public CampaignService(ProductRepository productRepository, VolunteerRepository volunteerRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
+        this.volunteerRepository = volunteerRepository;
         this.userRepository = userRepository;
     }
 
     public ProductDto getProductById (Long id) {
-        Product product = productRepository.findById(id)
+        Campaign campaign = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        return ProductDto.from(product);
+        return ProductDto.from(campaign);
     }
 
     public ProductDto createProduct (ProductDto dto) {
 
-        Category category = categoryRepository.findById(dto.categoryId())
+        Region region = volunteerRepository.findById(dto.categoryId())
                 .orElseThrow(() -> new IllegalArgumentException("category not found"));
 
-        Product product = ProductDto.to(dto , category);
+        Campaign campaign = ProductDto.to(dto , region);
 
-       Product saveProduct =  productRepository.save(product);
+        Campaign saveCampaign =  productRepository.save(campaign);
 
-       return ProductDto.from(saveProduct);
+        return ProductDto.from(saveCampaign);
     }
 
     @Transactional
@@ -66,20 +61,20 @@ public class ProductService {
 
 
 
-        Product findProduct = productRepository.findById(productId).orElseThrow( () -> new RuntimeException("Product not found"));
+        Campaign findCampaign = productRepository.findById(productId).orElseThrow( () -> new RuntimeException("Product not found"));
         userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
 
-        findProduct.changeContent(productPatchRequestBody.body());
+        findCampaign.changeContent(productPatchRequestBody.body());
         /*
             영속성 컨텍스트에서 변경감지 -> flush 시점에 UPDATE 쿼리
 
          */
-        return ProductDto.from(findProduct);
+        return ProductDto.from(findCampaign);
     }
 
     public void deleteProduct (Long productId, User currentUser) {
-        Product findProduct = productRepository.findById(productId).orElseThrow( () -> new RuntimeException("Product not found"));
+        Campaign findCampaign = productRepository.findById(productId).orElseThrow( () -> new RuntimeException("Product not found"));
 
-        productRepository.delete(findProduct);
+        productRepository.delete(findCampaign);
     }
 }

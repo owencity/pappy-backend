@@ -1,7 +1,7 @@
 package com.kyu.pappy.dtos;
 
-import com.kyu.pappy.entities.Product;
-import com.kyu.pappy.entities.Review;
+import com.kyu.pappy.entities.Campaign;
+import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.User;
 
 import java.util.Date;
@@ -11,16 +11,16 @@ public record ReviewDto(
         String comment
 ) {
 
-    public static ReviewDto from(Review review) {
+    public static ReviewDto from(Comment comment) {
         return new ReviewDto(
-                review.getProduct().getId(),
-                review.getComment()
+                comment.getCampaign().getId(),
+                comment.getComment()
         );
     }
 
-    public static Review to(ReviewDto dto, Product product, User user) {
-        return Review.builder()
-                .product(product)
+    public static Comment to(ReviewDto dto, Campaign campaign, User user) {
+        return Comment.builder()
+                .campaign(campaign)
                 .user(user)
                 .comment(dto.comment)
                 .createdAt(new Date())
