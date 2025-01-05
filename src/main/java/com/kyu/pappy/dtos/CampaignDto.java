@@ -6,7 +6,7 @@ import com.kyu.pappy.enums.ProductStatus;
 
 import java.util.Date;
 
-public record ProductDto(
+public record CampaignDto(
         String productName,
         String productContent,
         ProductStatus status,
@@ -16,8 +16,8 @@ public record ProductDto(
         Date productDate
 ) {
 
-    public static ProductDto from(Campaign campaign) {
-        return new ProductDto(
+    public static CampaignDto from(Campaign campaign) {
+        return new CampaignDto(
                 campaign.getProductName(),
                 campaign.getProductContent(),
                 campaign.getStatus(),
@@ -28,7 +28,7 @@ public record ProductDto(
         );
     }
 
-    public static Campaign to(ProductDto dto, Region region) {
+    public static Campaign to(CampaignDto dto, Region region) {
         return Campaign.builder()
                 .productName(dto.productName)
                 .productContent(dto.productContent)

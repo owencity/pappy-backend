@@ -5,22 +5,22 @@ import com.kyu.pappy.dtos.ReviewDto;
 import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.User;
-import com.kyu.pappy.repositories.ProductRepository;
-import com.kyu.pappy.repositories.ReviewRepository;
+import com.kyu.pappy.repositories.CampaignRepository;
+import com.kyu.pappy.repositories.CommentRepository;
 import com.kyu.pappy.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommentService {
 
-    private final ReviewRepository reviewRepository;
+    private final CommentRepository commentRepository;
     private final UserRepository userRepository;
-    private final ProductRepository productRepository;
+    private final CampaignRepository campaignRepository;
 
-    public CommentService(ReviewRepository reviewRepository, UserRepository userRepository, ProductRepository productRepository) {
-        this.reviewRepository = reviewRepository;
+    public CommentService(CommentRepository commentRepository, UserRepository userRepository, CampaignRepository campaignRepository) {
+        this.commentRepository = commentRepository;
         this.userRepository = userRepository;
-        this.productRepository = productRepository;
+        this.campaignRepository = campaignRepository;
     }
 
     public ReviewDto saveReview(ReviewDto reviewDto, Long productId, String username ) {
@@ -28,9 +28,9 @@ public class CommentService {
         User user = userRepository.findByUserEmail(username).orElseThrow(
                 () -> new UserNotFoundException(username)
         );
-        Campaign campaign = productRepository.findById(productId).orElseThrow( () -> new RuntimeException("not found product"));
+        Campaign campaign = campaignRepository.findById(productId).orElseThrow( () -> new RuntimeException("not found product"));
 
-        Comment createComment = reviewRepository.save(ReviewDto.to(reviewDto, campaign, user));
+        Comment createComment = commentRepository.save(ReviewDto.to(reviewDto, campaign, user));
         return ReviewDto.from(createComment);
     }
 }

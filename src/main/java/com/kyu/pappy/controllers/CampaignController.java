@@ -1,9 +1,9 @@
 package com.kyu.pappy.controllers;
 
-import com.kyu.pappy.dtos.ProductDto;
+import com.kyu.pappy.dtos.CampaignDto;
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.model.pagenation.PageResponse;
-import com.kyu.pappy.model.product.ProductPatchRequestBody;
+import com.kyu.pappy.model.story.StoryPatchRequestBody;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CampaignService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class CampaignController {
     }
 
     @GetMapping
-    public PageResponse<ProductDto> getAllCampaign (
+    public PageResponse<CampaignDto> getAllCampaign (
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
@@ -29,15 +29,15 @@ public class CampaignController {
     }
 
     @GetMapping("/{productId}")
-    public ProductDto getCampaignById (@PathVariable("productId") long productId) {
+    public CampaignDto getCampaignById (@PathVariable("productId") long productId) {
 
         return campaignService.getProductById(productId);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCampaign(@RequestBody ProductDto createDto) {
+    public ResponseEntity<?> createCampaign(@RequestBody CampaignDto createDto) {
         try {
-            ProductDto savedProduct = campaignService.createProduct(createDto);
+            CampaignDto savedProduct = campaignService.createProduct(createDto);
             return ResponseEntity.ok(savedProduct);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create product" + e.getMessage());
@@ -45,11 +45,11 @@ public class CampaignController {
     }
 
     @PatchMapping("/update/{productId}")
-    public ResponseEntity<ProductDto> updateCampaign(@PathVariable("productId") Long productId, @RequestBody ProductPatchRequestBody productPatchRequestBody , Authentication authentication) {
+    public ResponseEntity<CampaignDto> updateCampaign(@PathVariable("productId") Long productId, @RequestBody StoryPatchRequestBody storyPatchRequestBody, Authentication authentication) {
 
         CustomUserDetails  currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
         String username = currentUserDetails.getUsername();
-        var updateProduct = campaignService.updateProduct(productId , productPatchRequestBody, username);
+        var updateProduct = campaignService.updateProduct(productId , storyPatchRequestBody, username);
         return ResponseEntity.ok(updateProduct);
     }
 
