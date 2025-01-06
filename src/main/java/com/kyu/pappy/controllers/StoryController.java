@@ -53,7 +53,7 @@ public class StoryController {
     }
 
     @DeleteMapping("/delete/{storyId}")
-    public void deleteStory(@PathVariable Long storyId, Authentication authentication) {
+    public void deleteStory(@PathVariable("storyId") Long storyId, Authentication authentication) {
 
         CustomUserDetails  currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
         String username = currentUserDetails.getUsername();

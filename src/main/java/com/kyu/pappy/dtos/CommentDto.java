@@ -6,19 +6,19 @@ import com.kyu.pappy.entities.User;
 
 import java.util.Date;
 
-public record ReviewDto(
-        Long productId,
+public record CommentDto(
+        Long campaignId,
         String comment
 ) {
 
-    public static ReviewDto from(Comment comment) {
-        return new ReviewDto(
+    public static CommentDto from(Comment comment) {
+        return new CommentDto(
                 comment.getCampaign().getId(),
                 comment.getComment()
         );
     }
 
-    public static Comment to(ReviewDto dto, Campaign campaign, User user) {
+    public static Comment to(CommentDto dto, Campaign campaign, User user) {
         return Comment.builder()
                 .campaign(campaign)
                 .user(user)

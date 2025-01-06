@@ -1,7 +1,7 @@
 package com.kyu.pappy.services;
 
 import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
-import com.kyu.pappy.dtos.ReviewDto;
+import com.kyu.pappy.dtos.CommentDto;
 import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.User;
@@ -23,14 +23,14 @@ public class CommentService {
         this.campaignRepository = campaignRepository;
     }
 
-    public ReviewDto saveReview(ReviewDto reviewDto, Long productId, String username ) {
+    public CommentDto saveReview(CommentDto commentDto, Long campaignId, String username ) {
 
         User user = userRepository.findByUserEmail(username).orElseThrow(
                 () -> new UserNotFoundException(username)
         );
-        Campaign campaign = campaignRepository.findById(productId).orElseThrow( () -> new RuntimeException("not found product"));
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow( () -> new RuntimeException("not found product"));
 
-        Comment createComment = commentRepository.save(ReviewDto.to(reviewDto, campaign, user));
-        return ReviewDto.from(createComment);
+        Comment createComment = commentRepository.save(CommentDto.to(commentDto, campaign, user));
+        return CommentDto.from(createComment);
     }
 }

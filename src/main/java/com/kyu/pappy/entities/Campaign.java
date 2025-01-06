@@ -1,6 +1,6 @@
 package com.kyu.pappy.entities;
 
-import com.kyu.pappy.enums.ProductStatus;
+import com.kyu.pappy.enums.CampaignStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,26 +19,23 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String productName;
-    private String productContent;
+    private String campaignName;
+    private String campaignContent;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region;
 
-    private int price;
-    private int quantity;
-    // 상품 품절관리 (판매중 , 품절 , 판매중지)
 
     @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private CampaignStatus status;
     private Date createdAt;
 
-    public void changeContent(String content) {
-        this.productContent = content;
+    public void changeContent(String changeContent) {
+        this.campaignContent = changeContent;
     }
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 }

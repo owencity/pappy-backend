@@ -1,6 +1,6 @@
 package com.kyu.pappy.controllers;
 
-import com.kyu.pappy.dtos.ReviewDto;
+import com.kyu.pappy.dtos.CommentDto;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CommentService;
 import org.springframework.security.core.Authentication;
@@ -20,10 +20,10 @@ public class CommentController {
     }
 
     @PostMapping("/write")
-    public ReviewDto SaveReview(@RequestBody ReviewDto dto, Authentication auth) {
+    public CommentDto SaveComment(@RequestBody CommentDto commentdto, Authentication auth) {
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         String username = userDetails.getUsername();
 
-        return commentService.saveReview(dto, dto.productId() , username);
+        return commentService.saveReview(commentdto, commentdto.campaignId() , username);
     }
 }

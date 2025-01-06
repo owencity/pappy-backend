@@ -25,37 +25,37 @@ public class CampaignController {
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
-        return campaignService.getAllProductPaged(page, size);
+        return campaignService.getAllCampaignPaged(page, size);
     }
 
-    @GetMapping("/{productId}")
-    public CampaignDto getCampaignById (@PathVariable("productId") long productId) {
+    @GetMapping("/{campaignId}")
+    public CampaignDto getCampaignById (@PathVariable("campaignId") long campaignId) {
 
-        return campaignService.getProductById(productId);
+        return campaignService.getCampaignById(campaignId);
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createCampaign(@RequestBody CampaignDto createDto) {
         try {
-            CampaignDto savedProduct = campaignService.createProduct(createDto);
+            CampaignDto savedProduct = campaignService.createCampaign(createDto);
             return ResponseEntity.ok(savedProduct);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create product" + e.getMessage());
         }
     }
 
-    @PatchMapping("/update/{productId}")
-    public ResponseEntity<CampaignDto> updateCampaign(@PathVariable("productId") Long productId, @RequestBody StoryPatchRequestBody storyPatchRequestBody, Authentication authentication) {
+    @PatchMapping("/update/{campaignId}")
+    public ResponseEntity<CampaignDto> updateCampaign(@PathVariable("campaignId") Long productId, @RequestBody StoryPatchRequestBody storyPatchRequestBody, Authentication authentication) {
 
         CustomUserDetails  currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
         String username = currentUserDetails.getUsername();
-        var updateProduct = campaignService.updateProduct(productId , storyPatchRequestBody, username);
+        var updateProduct = campaignService.updateCampaign(productId , storyPatchRequestBody, username);
         return ResponseEntity.ok(updateProduct);
     }
 
-    @DeleteMapping("/delete/{productId}")
-    public void deleteCampaign(@PathVariable Long productId, Authentication authentication) {
+    @DeleteMapping("/delete/{campaignId}")
+    public void deleteCampaign(@PathVariable Long campaignId, Authentication authentication) {
 
-        campaignService.deleteProduct(productId, (User) authentication.getPrincipal());
+        campaignService.deleteCampaign(campaignId, (User) authentication.getPrincipal());
     }
 }

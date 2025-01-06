@@ -24,8 +24,8 @@ public class Comment {
 
     // 하나의 상품에 여러개의 리뷰
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Campaign campaign;
+    @JoinColumn(name = "story_id")
+    private Story story;
 
     private String comment;
     private Date createdAt;

@@ -1,15 +1,14 @@
 package com.kyu.pappy.dtos;
 
-import com.kyu.pappy.entities.Region;
 import com.kyu.pappy.entities.Campaign;
-import com.kyu.pappy.enums.ProductStatus;
+import com.kyu.pappy.enums.CampaignStatus;
 
 import java.util.Date;
 
 public record CampaignDto(
         String productName,
         String productContent,
-        ProductStatus status,
+        CampaignStatus status,
         Long categoryId,
         int price,
         int quantity,
@@ -28,12 +27,11 @@ public record CampaignDto(
         );
     }
 
-    public static Campaign to(CampaignDto dto, Region region) {
+    public static Campaign to(CampaignDto dto) {
         return Campaign.builder()
                 .productName(dto.productName)
                 .productContent(dto.productContent)
                 .status(dto.status)
-                .region(region)
                 .price(dto.price)
                 .quantity(dto.quantity)
                 .createdAt(new Date())
