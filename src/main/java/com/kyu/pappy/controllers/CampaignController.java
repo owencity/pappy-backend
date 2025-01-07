@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/campaign")
 public class CampaignController {
 
     private final CampaignService campaignService;

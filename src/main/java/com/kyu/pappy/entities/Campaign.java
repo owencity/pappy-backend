@@ -4,6 +4,7 @@ import com.kyu.pappy.enums.CampaignStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,12 +31,10 @@ public class Campaign {
 
     @Enumerated(EnumType.STRING)
     private CampaignStatus status;
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     public void changeContent(String changeContent) {
         this.campaignContent = changeContent;
     }
 
-    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
 }

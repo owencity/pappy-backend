@@ -2,11 +2,11 @@ package com.kyu.pappy.services;
 
 import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.dtos.CommentDto;
-import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.entities.Comment;
+import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.entities.User;
-import com.kyu.pappy.repositories.CampaignRepository;
 import com.kyu.pappy.repositories.CommentRepository;
+import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +15,12 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
-    private final CampaignRepository campaignRepository;
+    private final StoryRepository storyRepository;
 
-    public CommentService(CommentRepository commentRepository, UserRepository userRepository, CampaignRepository campaignRepository) {
+    public CommentService(CommentRepository commentRepository, UserRepository userRepository,StoryRepository storyRepository) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
-        this.campaignRepository = campaignRepository;
+        this.storyRepository = storyRepository;
     }
 
     public CommentDto saveReview(CommentDto commentDto, Long campaignId, String username ) {
@@ -28,9 +28,9 @@ public class CommentService {
         User user = userRepository.findByUserEmail(username).orElseThrow(
                 () -> new UserNotFoundException(username)
         );
-        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow( () -> new RuntimeException("not found product"));
+        Story story = storyRepository.findById(campaignId).orElseThrow( () -> new RuntimeException("not found storyId"));
 
-        Comment createComment = commentRepository.save(CommentDto.to(commentDto, campaign, user));
+        Comment createComment = commentRepository.save(CommentDto.to(commentDto, story, user));
         return CommentDto.from(createComment);
     }
 }

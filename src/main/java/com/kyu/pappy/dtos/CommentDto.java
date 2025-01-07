@@ -2,6 +2,7 @@ package com.kyu.pappy.dtos;
 
 import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.entities.Comment;
+import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.entities.User;
 
 import java.util.Date;
@@ -13,14 +14,14 @@ public record CommentDto(
 
     public static CommentDto from(Comment comment) {
         return new CommentDto(
-                comment.getCampaign().getId(),
+                comment.getStory().getId(),
                 comment.getComment()
         );
     }
 
-    public static Comment to(CommentDto dto, Campaign campaign, User user) {
+    public static Comment to(CommentDto dto, Story story, User user) {
         return Comment.builder()
-                .campaign(campaign)
+                .story(story)
                 .user(user)
                 .comment(dto.comment)
                 .createdAt(new Date())
