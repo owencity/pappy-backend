@@ -1,8 +1,11 @@
 package com.kyu.pappy.controllers;
 
 import com.kyu.pappy.dtos.StoryDto;
+import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.model.pagenation.PageResponse;
+import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
+import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.StoryService;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +23,16 @@ public class StoryController {
     }
 
     @GetMapping
-    public PageResponse<StoryDto> getAllStory (
+    public PageResponse<StoryPageResponse> getAllStory (
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
+
         return storyService.getStoryPaged(page, size);
     }
 
     @GetMapping("/{storyId}")
     public StoryDto getStoryById (@PathVariable("storyId") long storyId) {
-
         return storyService.getStoryById(storyId);
     }
 

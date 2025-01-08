@@ -8,20 +8,20 @@ import com.kyu.pappy.entities.User;
 import java.util.Date;
 
 public record CommentDto(
-        Long campaignId,
+        Long storyId,
         String comment
 ) {
 
     public static CommentDto from(Comment comment) {
         return new CommentDto(
-                comment.getStory().getId(),
+                comment.getCommentStory().getId(),
                 comment.getComment()
         );
     }
 
     public static Comment to(CommentDto dto, Story story, User user) {
         return Comment.builder()
-                .story(story)
+                .commentStory(story)
                 .user(user)
                 .comment(dto.comment)
                 .createdAt(new Date())

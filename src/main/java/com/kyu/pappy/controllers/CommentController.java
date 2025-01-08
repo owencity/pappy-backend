@@ -4,13 +4,12 @@ import com.kyu.pappy.dtos.CommentDto;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CommentService;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/review")
+@RequestMapping("/comment")
 public class CommentController {
 
     private final CommentService commentService;
@@ -24,6 +23,7 @@ public class CommentController {
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         String username = userDetails.getUsername();
 
-        return commentService.saveReview(commentdto, commentdto.campaignId() , username);
+        return commentService.saveComment(commentdto, commentdto.storyId() , username);
     }
+
 }

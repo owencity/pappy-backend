@@ -19,7 +19,7 @@ public record CampaignPartnerDto(
         );
     }
 
-    public static CampaignPartner to(CampaignPartnerDto campaignPartnerDto, User userId, Campaign campaignId) {
+    public static CampaignPartner to(User userId, Campaign campaignId) {
         return CampaignPartner.builder()
                 .user(userId)
                 .campaign(campaignId)

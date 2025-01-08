@@ -2,8 +2,10 @@ package com.kyu.pappy.services;
 
 import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.dtos.StoryDto;
+import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.model.pagenation.PageResponse;
+import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
 import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.repositories.UserRepository;
@@ -25,21 +27,22 @@ public class StoryService {
         this.userRepository = userRepository;
     }
 
-    public PageResponse<StoryDto> getStoryPaged(int page, int size) {
+    public PageResponse<StoryPageResponse> getStoryPaged(int page, int size) {
         List<Story> allCampaigns = storyRepository.findAll();
 
-        List<StoryDto> allStoryDto = allCampaigns.stream()
-                .map(StoryDto::from)
+        List<StoryPageResponse> allStoryDto = allCampaigns.stream()
+                .map(StoryPageResponse::from)
                 .toList();
 
         return PaginationUtils.toPageResponse(allStoryDto, page, size);
     }
 
+    @Transactional(readOnly = true)
     public StoryDto getStoryById (Long id) {
-        Story getStoryById = storyRepository.findById(id)
+        Story story = storyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        return StoryDto.from(getStoryById);
+        return StoryDto.from(story);
     }
 
     public StoryDto createStory (StoryDto storyDto) {

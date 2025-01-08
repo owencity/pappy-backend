@@ -1,8 +1,10 @@
 package com.kyu.pappy.dtos;
 
+import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.Story;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record StoryDto(
 
@@ -10,15 +12,20 @@ public record StoryDto(
         String name,
         String content,
         String imageUrl,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        List<CommentDto> comments
 ) {
     public static StoryDto from(Story story) {
-        return new StoryDto(
+        return
+                new StoryDto(
                 story.getId(),
                 story.getName(),
                 story.getContent(),
                 story.getImageUrl(),
-                story.getCreatedAt()
+                story.getCreatedAt(),
+                        story.getComments().stream()
+                                .map(CommentDto::from)
+                                .toList()
         );
     }
 

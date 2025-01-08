@@ -15,13 +15,11 @@ public class UserSignUpService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     public UserSignUpService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
 
@@ -61,6 +59,6 @@ public class UserSignUpService {
         }
 
         // 일치할시 encode 하여 return
-        return passwordEncoder.encode(password);
+        return bCryptPasswordEncoder.encode(password);
     }
 }

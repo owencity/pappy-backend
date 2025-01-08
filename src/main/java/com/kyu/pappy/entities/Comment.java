@@ -23,9 +23,9 @@ public class Comment {
     private User user;
 
     // 하나의 상품에 여러개의 리뷰
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "story_id")
-    private Story story;
+    private Story commentStory;
 
     private String comment;
     private Date createdAt;

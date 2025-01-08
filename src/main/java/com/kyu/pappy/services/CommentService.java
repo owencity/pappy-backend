@@ -23,7 +23,7 @@ public class CommentService {
         this.storyRepository = storyRepository;
     }
 
-    public CommentDto saveReview(CommentDto commentDto, Long campaignId, String username ) {
+    public CommentDto saveComment(CommentDto commentDto, Long campaignId, String username ) {
 
         User user = userRepository.findByUserEmail(username).orElseThrow(
                 () -> new UserNotFoundException(username)

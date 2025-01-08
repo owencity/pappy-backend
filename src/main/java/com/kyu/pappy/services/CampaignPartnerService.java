@@ -23,13 +23,13 @@ public class CampaignPartnerService {
         this.campaignRepository = campaignRepository;
     }
 
-    public CampaignPartnerDto savePartner(CampaignPartnerDto campaignPartnerDto, Long userId, Long campaignId) {
+    public CampaignPartnerDto savePartner( String userEmail, Long campaignId) {
 
-        User findUser = userRepository.findById(userId).orElse(null);
+        User findUser = userRepository.findByUserEmail(userEmail).orElse(null);
         Campaign findCampaign = campaignRepository.findById(campaignId).orElse(null);
 
 
-        CampaignPartner saveCampaignPartner = campaignPartnerRepository.save(CampaignPartnerDto.to(campaignPartnerDto, findUser, findCampaign));
+        CampaignPartner saveCampaignPartner = campaignPartnerRepository.save(CampaignPartnerDto.to(findUser, findCampaign));
 
         return CampaignPartnerDto.from(saveCampaignPartner);
     }
