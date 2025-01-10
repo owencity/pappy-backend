@@ -4,6 +4,7 @@ import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.dtos.StoryDto;
 import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.Story;
+import com.kyu.pappy.entities.User;
 import com.kyu.pappy.model.pagenation.PageResponse;
 import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
@@ -39,16 +40,18 @@ public class StoryService {
 
     @Transactional(readOnly = true)
     public StoryDto getStoryById (Long id) {
-        Story story = storyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+//        Story story = storyRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Product not found"));
 
+        Story story = storyRepository.findByIdWithComments(id);
         return StoryDto.from(story);
     }
 
-    public StoryDto createStory (StoryDto storyDto) {
+    public StoryDto createStory (StoryDto storyDto, String userEmail) {
 
+        User findUser = userRepository.findByUserEmail(userEmail).orElseThrow(UserNotFoundException::new);
 
-        Story createStory = StoryDto.to(storyDto);
+        Story createStory = StoryDto.to(storyDto, findUser);
 
         Story saveStory =  storyRepository.save(createStory);
 

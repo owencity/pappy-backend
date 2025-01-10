@@ -37,9 +37,11 @@ public class StoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createStory(@RequestBody StoryDto createDto) {
+    public ResponseEntity<?> createStory(@RequestBody StoryDto createDto, Authentication authentication) {
         try {
-            StoryDto savedStory = storyService.createStory(createDto);
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            String userEmail = userDetails.getUsername();
+            StoryDto savedStory = storyService.createStory(createDto, userEmail);
             return ResponseEntity.ok(savedStory);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create product" + e.getMessage());

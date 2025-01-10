@@ -28,6 +28,7 @@ public class CommentService {
         User user = userRepository.findByUserEmail(username).orElseThrow(
                 () -> new UserNotFoundException(username)
         );
+
         Story story = storyRepository.findById(campaignId).orElseThrow( () -> new RuntimeException("not found storyId"));
 
         Comment createComment = commentRepository.save(CommentDto.to(commentDto, story, user));

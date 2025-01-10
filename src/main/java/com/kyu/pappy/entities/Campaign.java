@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,12 +19,6 @@ public class Campaign {
 
     private String campaignName;
     private String campaignContent;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
-    private Region region;
-
 
     @Enumerated(EnumType.STRING)
     private CampaignStatus status;

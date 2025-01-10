@@ -4,6 +4,6 @@ import com.kyu.pappy.entities.Story;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface StoryRepository extends JpaRepository<Story, Long> {
+public interface StoryRepository extends JpaRepository<Story, Long>, StoryRepositoryCustom {
 
 }

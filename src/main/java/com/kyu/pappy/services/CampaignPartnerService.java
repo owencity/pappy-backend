@@ -28,9 +28,7 @@ public class CampaignPartnerService {
         User findUser = userRepository.findByUserEmail(userEmail).orElse(null);
         Campaign findCampaign = campaignRepository.findById(campaignId).orElse(null);
 
-
         CampaignPartner saveCampaignPartner = campaignPartnerRepository.save(CampaignPartnerDto.to(findUser, findCampaign));
-
         return CampaignPartnerDto.from(saveCampaignPartner);
     }
 

@@ -1,6 +1,7 @@
 package com.kyu.pappy.controllers;
 
 import com.kyu.pappy.dtos.CampaignPartnerDto;
+import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CampaignPartnerService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ public class CampaignPartnerController {
     @PostMapping("/create/{campaignId}")
     public CampaignPartnerDto savePartner(@PathVariable("campaignId") Long campaignId, Authentication authentication) {
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         return campaignPartnerService.savePartner(username, campaignId);
     }
