@@ -32,7 +32,7 @@ public class StoryController {
     }
 
     @GetMapping("/{storyId}")
-    public StoryDto getStoryById (@PathVariable("storyId") long storyId) {
+    public StoryDto getStoryById (@PathVariable("storyId") long storyId) throws InterruptedException {
         return storyService.getStoryById(storyId);
     }
 
