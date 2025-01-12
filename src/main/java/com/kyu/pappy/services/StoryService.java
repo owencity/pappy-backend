@@ -36,23 +36,23 @@ public class StoryService {
         this.redisTemplate = redisTemplate;
     }
 
-    public PageResponse<StoryPageResponse> getStoryPaged(int page, int size) {
-        List<Story> allCampaigns = storyRepository.findAll();
+    public List<StoryPageResponse> getStoryPaged(int page, int size) {
+        List<Story> storyPage =  storyRepository.findStoryPagination(page, size);
+        // 데이터베이스에서 페이지네이션된 Story 엔티티 리스트를 가져옴
 
-        List<StoryPageResponse> allStoryDto = allCampaigns.stream()
+        return storyPage.stream()
                 .map(StoryPageResponse::from)
                 .toList();
-
-        return PaginationUtils.toPageResponse(allStoryDto, page, size);
+        // 각 stream의 각 요소(story)를 StoryPageResponse로 변환.
+        // from 메더드는 story 객체를 받아 storyPageResponse로 변환 하는 정적메서드
+        // 변환된 stream을 Lis로 변환 최종결과 List<StoryPageResponse)
     }
 
     public StoryDto getStoryById (Long id) throws InterruptedException {
 
 //        Story story = storyRepository.findById(id)
 //                .orElseThrow(() -> new RuntimeException("Product not found"));
-        // 캐싱이 없으면 잠금 설정 시도
         String cacheKey = "story:" + id;
-        String lockKey = "lock:" + cacheKey;
 
         // Redis에서 캐시 데이터 조회
         Object cachedData = redisTemplate.opsForValue().get(cacheKey);

@@ -1,18 +1,17 @@
-
 services:
   db:
-    image: mysql:latest
+    image: postgres:latest
     environment:
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: pappy
-      MYSQL_PASSWORD: pappy
-      MYSQL_ROOT_PASSWORD: rootpassword
+      POSTGRES_DB: mydb
+      POSTGRES_USER: pappy
+      POSTGRES_PASSWORD: pappy
     ports:
-      - "3310:3306"
+      - "3310:5432"
 
   redis:
     image: redis:latest
     container_name: my-redis
     ports:
       - "6379:6379"
+
 

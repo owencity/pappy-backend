@@ -1,7 +1,7 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3310/mydb
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:3310/mydb
     username: pappy
     password: pappy
 
@@ -15,7 +15,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 
   jwt:

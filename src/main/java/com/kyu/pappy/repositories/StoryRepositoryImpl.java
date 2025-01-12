@@ -6,6 +6,8 @@ import com.kyu.pappy.entities.Story;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class StoryRepositoryImpl implements StoryRepositoryCustom{
 
@@ -20,5 +22,15 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
                 .leftJoin(story.comments, comment).fetchJoin()
                 .where(story.id.eq((id)))
                 .fetchOne();
+    }
+
+    @Override
+    public List<Story> findStoryPagination(int page , int size) {
+        QStory story = QStory.story;
+
+        return queryFactory.selectFrom(story)
+                .offset((long) (page - 1) * size)
+                .limit(size)
+                .fetch();
     }
 }

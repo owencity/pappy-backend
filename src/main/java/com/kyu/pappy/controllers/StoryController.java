@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/story")
 public class StoryController {
@@ -23,9 +25,9 @@ public class StoryController {
     }
 
     @GetMapping
-    public PageResponse<StoryPageResponse> getAllStory (
-            @RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size
+    public List<StoryPageResponse> getAllStory (
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "size") int size
     ) {
 
         return storyService.getStoryPaged(page, size);
