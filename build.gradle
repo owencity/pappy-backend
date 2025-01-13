@@ -45,7 +45,7 @@ dependencies {
 
     // Redis 추가
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'io.lettuce.core:lettuce-core:6.2.4' // Lettuce 클라이언트 (Spring Boot 기본 사용)
+//    implementation 'io.lettuce.core:lettuce-core:6.2.4' // Lettuce 클라이언트 (Spring Boot 기본 사용)
 
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
