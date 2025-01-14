@@ -1,11 +1,8 @@
 package com.kyu.pappy.controllers;
 
 import com.kyu.pappy.dtos.StoryDto;
-import com.kyu.pappy.entities.Story;
-import com.kyu.pappy.model.pagenation.PageResponse;
 import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
-import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.StoryService;
 import org.springframework.http.ResponseEntity;

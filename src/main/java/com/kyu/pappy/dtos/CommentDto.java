@@ -1,6 +1,5 @@
 package com.kyu.pappy.dtos;
 
-import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.entities.User;

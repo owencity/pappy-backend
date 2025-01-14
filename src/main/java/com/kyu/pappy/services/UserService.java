@@ -1,16 +1,11 @@
 package com.kyu.pappy.services;
 
-import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.entities.User;
-import com.kyu.pappy.model.user.UserAuthenticationResponse;
 import com.kyu.pappy.repositories.UserRepository;
 import com.kyu.pappy.security.CustomUserDetails;
-import io.jsonwebtoken.Jwt;
-import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

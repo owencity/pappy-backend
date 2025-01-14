@@ -1,11 +1,7 @@
 package com.kyu.pappy.dtos;
 
-import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.entities.User;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.List;

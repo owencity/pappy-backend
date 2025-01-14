@@ -4,21 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.dtos.StoryDto;
-import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.entities.User;
-import com.kyu.pappy.model.pagenation.PageResponse;
 import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
 import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.repositories.UserRepository;
-import com.kyu.pappy.utils.PaginationUtils;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +43,7 @@ public class StoryService {
         // 변환된 stream을 Lis로 변환 최종결과 List<StoryPageResponse)
     }
 
-    public StoryDto getStoryById (Long id) throws InterruptedException {
+    public StoryDto getStoryById (Long id)  {
 
 //        Story story = storyRepository.findById(id)
 //                .orElseThrow(() -> new RuntimeException("Product not found"));

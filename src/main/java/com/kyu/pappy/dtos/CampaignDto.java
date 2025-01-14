@@ -4,7 +4,6 @@ import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.enums.CampaignStatus;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public record CampaignDto(
         String campaignName,

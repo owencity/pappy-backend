@@ -4,7 +4,6 @@ import com.kyu.pappy.dtos.CampaignPartnerDto;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CampaignPartnerService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

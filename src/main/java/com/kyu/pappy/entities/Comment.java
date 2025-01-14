@@ -2,7 +2,6 @@ package com.kyu.pappy.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.mapping.Join;
 
 import java.util.Date;
 

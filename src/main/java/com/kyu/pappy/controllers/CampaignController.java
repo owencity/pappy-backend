@@ -3,7 +3,6 @@ package com.kyu.pappy.controllers;
 import com.kyu.pappy.dtos.CampaignDto;
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.model.pagenation.PageResponse;
-import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CampaignService;
