@@ -1,6 +1,5 @@
 package com.kyu.pappy.services;
 
-import com.kyu.pappy.dtos.CampaignDto;
 import com.kyu.pappy.dtos.CampaignPartnerDto;
 import com.kyu.pappy.entities.Campaign;
 import com.kyu.pappy.entities.CampaignPartner;
@@ -25,8 +24,12 @@ public class CampaignPartnerService {
 
     public CampaignPartnerDto savePartner( String userEmail, Long campaignId) {
 
-        User findUser = userRepository.findByUserEmail(userEmail).orElse(null);
-        Campaign findCampaign = campaignRepository.findById(campaignId).orElse(null);
+        User findUser = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new RuntimeException("user_id Not found"));
+        Campaign findCampaign = campaignRepository.findById(campaignId).orElseThrow(() -> new RuntimeException("user_id Not found"));
+
+        if(campaignPartnerRepository.existsByUserIdAndCampaignId(findUser.getId(), findCampaign.getId())) {
+            throw new RuntimeException("This user has already joined this campaign");
+        }
 
         CampaignPartner saveCampaignPartner = campaignPartnerRepository.save(CampaignPartnerDto.to(findUser, findCampaign));
         return CampaignPartnerDto.from(saveCampaignPartner);
