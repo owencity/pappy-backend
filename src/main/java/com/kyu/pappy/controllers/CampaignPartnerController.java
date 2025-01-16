@@ -19,6 +19,7 @@ public class CampaignPartnerController {
     @PostMapping("/create/{campaignId}")
     public CampaignPartnerDto savePartner(@PathVariable("campaignId") Long campaignId, Authentication authentication) {
 
+        // 받은 jwt로 CustomuserDetails 통해 context에있는 user정보 불러와서 username 저장
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         return campaignPartnerService.savePartner(username, campaignId);

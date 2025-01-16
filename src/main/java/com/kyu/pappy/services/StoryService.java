@@ -74,6 +74,7 @@ public class StoryService {
 
     public StoryDto createStory (StoryDto storyDto, String userEmail) {
 
+        // user 중복확인위한 코드 , customException으로 확인
         User findUser = userRepository.findByUserEmail(userEmail).orElseThrow(UserNotFoundException::new);
 
         Story createStory = StoryDto.to(storyDto, findUser);

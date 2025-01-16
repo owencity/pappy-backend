@@ -24,13 +24,16 @@ public class CampaignPartnerService {
 
     public CampaignPartnerDto savePartner( String userEmail, Long campaignId) {
 
+        // 중복되지않았으면 user정보 반환 , campaign 동일
         User findUser = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new RuntimeException("user_id Not found"));
         Campaign findCampaign = campaignRepository.findById(campaignId).orElseThrow(() -> new RuntimeException("user_id Not found"));
 
+        // 중복참여자 확인 위한 exception 코드
         if(campaignPartnerRepository.existsByUserIdAndCampaignId(findUser.getId(), findCampaign.getId())) {
             throw new RuntimeException("This user has already joined this campaign");
         }
 
+        // 다대다 테이블에 찾은 user , campaign 저장
         CampaignPartner saveCampaignPartner = campaignPartnerRepository.save(CampaignPartnerDto.to(findUser, findCampaign));
         return CampaignPartnerDto.from(saveCampaignPartner);
     }

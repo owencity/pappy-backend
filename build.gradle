@@ -28,7 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    implementation 'org.postgresql:postgresql:42.7.4'
+    implementation 'org.postgresql:postgresql:42.7.2'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -46,7 +46,6 @@ dependencies {
     // Redis 추가
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 //    implementation 'io.lettuce.core:lettuce-core:6.2.4' // Lettuce 클라이언트 (Spring Boot 기본 사용)
-
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
