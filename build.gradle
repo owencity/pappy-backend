@@ -47,6 +47,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 //    implementation 'io.lettuce.core:lettuce-core:6.2.4' // Lettuce 클라이언트 (Spring Boot 기본 사용)
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // dot.env
+    implementation 'io.github.cdimascio:dotenv-spring-boot:2.2.0'
 }
 
 tasks.named('test') {
