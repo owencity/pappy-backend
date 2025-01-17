@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   db:
     image: postgres:latest
@@ -6,12 +7,10 @@ services:
       POSTGRES_USER: pappy
       POSTGRES_PASSWORD: pappy
     ports:
-      - "3310:5432"
+      - "5432:5432"
 
   redis:
     image: redis:latest
     container_name: my-redis
     ports:
       - "6379:6379"
-
-

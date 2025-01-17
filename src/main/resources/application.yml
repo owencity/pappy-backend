@@ -1,18 +1,8 @@
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:3310/mydb
-    username: pappy
-    password: pappy
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
+  profiles:
+    active: dev
 
   jpa:
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -21,8 +11,7 @@ spring:
   jwt:
     secret: U9J3fWm0gVd6K1nX8Qc4TpL7Rs2AvB5oZhYiN0CkJqDxWElMF3OyPGHtRaVX7MBKe
 
-
 logging:
   level:
     org.springframework.web.client.RestTemplate: DEBUG
-    org.apache.http: DEBUG # Apache HTTP 클라이언트를 사용하는 경우
+    org.apache.http: DEBUG
