@@ -48,32 +48,47 @@ public class SecurityConfig {
     @Bean
     public  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+//        http
+//                .csrf((auth) -> auth.disable());
+//
+//        http
+//                .formLogin((auth) -> auth.disable());
+//
+//        http
+//                .httpBasic((auth) -> auth.disable());
+//
+//        http
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers("/admin").hasRole("ADMIN") // admin 요청은 ADMIN 역할이 있어야 허용
+//                        .anyRequest().authenticated()); // 그 외 요청은 모두 허용
+//
+//        http
+//                .addFilterBefore(new JwtFilter(jwtUtil, userRepository), LoginFilter.class);
+//        // JwtFilter를 UsernamePasswordAuthenticationFilter 전에 추가
+//        http
+//                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+//        // LoginFilter를 UsernamePasswordAuthenticationFilter 전에 추가
+//        // CustomLogoutFilter를 LogoutFilter 전에 추가
+//
+//        http
+//                .sessionManagement((session) -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));	// 세션 관리 설정: 상태가 없는 세션을 사용하도록 설정합니다.
+//
+//        return http.build();
         http
-                .csrf((auth) -> auth.disable());
-
-        http
-                .formLogin((auth) -> auth.disable());
-
-        http
-                .httpBasic((auth) -> auth.disable());
-
-        http
-                .authorizeHttpRequests((auth) -> auth
+                .csrf(csrf -> csrf.disable())
+                .formLogin(formLogin -> formLogin.disable())
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN") // admin 요청은 ADMIN 역할이 있어야 허용
-                        .anyRequest().authenticated()); // 그 외 요청은 모두 허용
-
-        http
-                .addFilterBefore(new JwtFilter(jwtUtil, userRepository), LoginFilter.class);
-        // JwtFilter를 UsernamePasswordAuthenticationFilter 전에 추가
-        http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
-        // LoginFilter를 UsernamePasswordAuthenticationFilter 전에 추가
-        // CustomLogoutFilter를 LogoutFilter 전에 추가
-
-        http
-                .sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));	// 세션 관리 설정: 상태가 없는 세션을 사용하도록 설정합니다.
+                        .anyRequest().authenticated())
+                .addFilterBefore(new JwtFilter(jwtUtil, userRepository), LoginFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 상태 없는 세션
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())); // CORS 설정 적용
 
         return http.build();
     }
@@ -81,7 +96,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000"); // 클라이언트 도메인
+        configuration.addAllowedOrigin("http://localhost:5173"); // 클라이언트 도메인
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true); // 인증 정보 허용
