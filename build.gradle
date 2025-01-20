@@ -50,6 +50,8 @@ dependencies {
 
     // dot.env
     implementation 'io.github.cdimascio:dotenv-spring-boot:2.2.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
+
 }
 
 tasks.named('test') {

@@ -6,19 +6,19 @@ import com.kyu.pappy.enums.CampaignStatus;
 import java.time.LocalDateTime;
 
 public record CampaignDto(
+        Long campaignId,
         String campaignName,
         String campaignContent,
         CampaignStatus status,
-        Long regionId,
         LocalDateTime createAt
 ) {
 
     public static CampaignDto from(Campaign campaign) {
         return new CampaignDto(
+                campaign.getId(),
                 campaign.getCampaignName(),
                 campaign.getCampaignContent(),
                 campaign.getStatus(),
-                null,
                 campaign.getCreatedAt()
         );
     }

@@ -5,7 +5,7 @@ import com.kyu.pappy.entities.Story;
 import java.time.LocalDateTime;
 
 public record StoryPageResponse(
-        Long StoryId,
+        Long storyId,
         String name,
         LocalDateTime createAt
 ) {

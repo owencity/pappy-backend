@@ -34,3 +34,7 @@
 ### ⚙️ CI/CD
 - GitHub Actions
 - AWS CodeDeploy
+
+## API Documentation
+
+- [OpenAPI JSON](./api-docs/pappy_api_docs.json)
