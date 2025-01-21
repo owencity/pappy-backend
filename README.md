@@ -40,3 +40,7 @@
 API 관련 상세한 정보는 아래의 Google Sheets 문서를 참고하세요:
 
 - [API Documentation (Google Sheets)](https://docs.google.com/spreadsheets/d/1_hFok928_HgFlFAQqNh2XMTB8H2Wp9du-uAcDRhAkY4/edit?usp=sharing)
+
+# 개발 기록 및 관리 문서 
+
+- [Dev Documentation (Notion)](https://boiling-barge-9f5.notion.site/1605b4390d98804cb2e5d5ea8adff484)
