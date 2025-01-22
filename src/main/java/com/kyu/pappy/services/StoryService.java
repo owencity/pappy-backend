@@ -72,6 +72,13 @@ public class StoryService {
         return storyDto;
     }
 
+    public void invalidateStoryCache (Long id) {
+        String cacheKey = "story:" + id;
+        redisTemplate.delete(cacheKey);
+    }
+
+
+
     public StoryDto createStory (StoryDto storyDto, String userEmail) {
 
         // user 중복확인위한 코드 , customException으로 확인
@@ -85,16 +92,27 @@ public class StoryService {
     }
 
     @Transactional
-    public StoryDto updateStory (Long StoryId, StoryPatchRequestBody storyPatchRequestBody, String currentUser) {
+    public StoryDto updateStory (Long storyId, StoryPatchRequestBody storyPatchRequestBody, String currentUser) {
 
-        Story findStory = storyRepository.findById(StoryId).orElseThrow( () -> new RuntimeException("Story not found"));
+        // 1. 스토리 조회
+        Story findStory = storyRepository.findById(storyId).orElseThrow( () -> new RuntimeException("Story not found"));
+        // 2. 사용자 확인
         userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
 
+        //3. 스토리 내용 수정
         findStory.changeContent(storyPatchRequestBody.body());
         /*
             영속성 컨텍스트에서 변경감지 -> flush 시점에 UPDATE 쿼리
-
          */
+
+        // 4. 기존 캐시 삭제
+        invalidateStoryCache(findStory.getId());
+
+        // 5. 수정된 데이터 캐싱
+        String cacheKey = "story:" + storyId;
+        redisTemplate.opsForValue().set(cacheKey, storyPatchRequestBody, 10 , TimeUnit.MINUTES);
+
+        // 6. 수정된 데이터반환
         return StoryDto.from(findStory);
     }
 

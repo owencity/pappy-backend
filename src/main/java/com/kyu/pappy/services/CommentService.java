@@ -43,9 +43,6 @@ public class CommentService {
 
             // 자바 기본문법 -> 지역변수 초기화 필수, 참조타입변수 -> null로 초기화(아직 참조할 객체가없다를 명시적으로 표현)
             // 대댓글시 부모를 가리키는 id null 일시 새댓글, 부모를 가리키는 parentId 있을시 대댓글
-
-
-
         Comment createComment = commentRepository.save(CommentDto.to(commentDto, story, user, parent));
         return CommentDto.from(createComment);
     }

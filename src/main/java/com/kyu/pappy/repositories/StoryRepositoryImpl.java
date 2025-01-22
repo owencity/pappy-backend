@@ -20,6 +20,7 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
 
         return queryFactory.selectFrom(story)
                 .leftJoin(story.comments, comment).fetchJoin()
+                .leftJoin(comment.replies).fetchJoin() // 댓글의 자식(대댓글)까지 가져오기
                 .where(story.id.eq((id)))
                 .fetchOne();
     }
