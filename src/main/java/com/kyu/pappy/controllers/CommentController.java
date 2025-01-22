@@ -22,7 +22,7 @@ public class CommentController {
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         String username = userDetails.getUsername();
 
-        return commentService.saveComment(commentdto, commentdto.storyId() , username);
+        return commentService.saveComment(commentdto, commentdto.storyId() , username, commentdto.parentId());
     }
 
 }

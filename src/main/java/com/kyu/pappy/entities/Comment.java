@@ -3,7 +3,9 @@ package com.kyu.pappy.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,4 +30,13 @@ public class Comment {
 
     private String comment;
     private Date createdAt;
+
+    // 자기 참조 관계 설정(부모 댓글)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
+
+    // 대댓글 리스트(자식 댓글)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> replies = new ArrayList<>();
 }
