@@ -3,7 +3,6 @@ package com.kyu.pappy.controllers;
 import com.kyu.pappy.dtos.CommentDto;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CommentService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 

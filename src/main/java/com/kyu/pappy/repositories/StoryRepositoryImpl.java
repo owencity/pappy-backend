@@ -1,8 +1,6 @@
 package com.kyu.pappy.repositories;
 
-import com.kyu.pappy.dtos.CommentDto;
-import com.kyu.pappy.dtos.StoryDto;
-import com.kyu.pappy.entities.Comment;
+
 import com.kyu.pappy.entities.QComment;
 import com.kyu.pappy.entities.QStory;
 import com.kyu.pappy.entities.Story;
