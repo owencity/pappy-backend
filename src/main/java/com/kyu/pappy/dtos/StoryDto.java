@@ -24,17 +24,20 @@ public record StoryDto(
                 story.getImageUrl(),
                 story.getCreatedAt(),
                         story.getComments() == null ? List.of() : story.getComments().stream()
-                                .map(CommentDto::from)
-                                .toList()
+                        .filter(c -> c.getParent() == null) // 최상위 댓글만 필터링
+                        .map(CommentDto::from) // Comment → CommentDto 변환
+                        .toList()
+
         );
     }
 
-    public static Story to(StoryDto storyDto, User userId) {
+    public static Story to(StoryDto storyDto, User user) {
         return Story.builder()
                 .id(storyDto.id())
                 .name(storyDto.name())
                 .content(storyDto.content())
-                .user(userId)
+                .imageUrl(storyDto.imageUrl())
+                .user(user)
                 .createdAt(LocalDateTime.now())
                 .build();
     }

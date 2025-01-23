@@ -3,8 +3,11 @@ package com.kyu.pappy.controllers;
 import com.kyu.pappy.dtos.CommentDto;
 import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.CommentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -23,6 +26,12 @@ public class CommentController {
         String username = userDetails.getUsername();
 
         return commentService.saveComment(commentdto, commentdto.storyId() , username, commentdto.parentId());
+    }
+
+    // 대댓글 불러오기
+    @GetMapping("/comments/{parentId}/replies")
+    public List<CommentDto> getRepliesByCommentId(@PathVariable Long parentId) {
+        return commentService.findRepliesByCommentId(parentId);
     }
 
 }

@@ -66,6 +66,7 @@ public class StoryService {
         Story story = storyRepository.findByIdWithComments(id);
 
 // DTO로 변환 및 캐싱
+
         StoryDto storyDto = StoryDto.from(story);
         redisTemplate.opsForValue().set(cacheKey, storyDto, 10, TimeUnit.MINUTES);
 
@@ -88,6 +89,7 @@ public class StoryService {
 
         Story saveStory =  storyRepository.save(createStory);
 
+        // 맷처음 글작성은 당연히 댓글이 없다.
         return StoryDto.from(saveStory);
     }
 

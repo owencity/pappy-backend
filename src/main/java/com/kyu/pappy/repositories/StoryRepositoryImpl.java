@@ -1,5 +1,8 @@
 package com.kyu.pappy.repositories;
 
+import com.kyu.pappy.dtos.CommentDto;
+import com.kyu.pappy.dtos.StoryDto;
+import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.QComment;
 import com.kyu.pappy.entities.QStory;
 import com.kyu.pappy.entities.Story;
@@ -18,12 +21,20 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
         QStory story = QStory.story;
         QComment comment = QComment.comment1;
 
-        return queryFactory.selectFrom(story)
+        Story storyEntity = queryFactory.selectFrom(story)
                 .leftJoin(story.comments, comment).fetchJoin()
-                .leftJoin(comment.replies).fetchJoin() // 댓글의 자식(대댓글)까지 가져오기
-                .where(story.id.eq((id)))
+                .where(story.id.eq(id)) // 최상위 댓글만 가져오기
                 .fetchOne();
+
+        if (storyEntity == null) {
+            throw new IllegalArgumentException("Story not found with id: " + id);
+        }
+
+        return storyEntity;
     }
+
+
+
 
     @Override
     public List<Story> findStoryPagination(int page , int size) {
@@ -34,4 +45,6 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
                 .limit(size)
                 .fetch();
     }
+
+
 }

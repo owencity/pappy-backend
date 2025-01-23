@@ -47,4 +47,12 @@ public class CommentService {
         return CommentDto.from(createComment);
     }
 
+    public List<CommentDto> findRepliesByCommentId(Long parentId) {
+        List<Comment> replies = commentRepository.findRepliesByCommentId(parentId);
+
+        return replies.stream()
+                .map(CommentDto::from) // Comment -> CommentDto 변환
+                .toList();
+    }
+
 }
