@@ -44,4 +44,8 @@ public class JwtUtil {
                 .signWith(secretKey)
                 .compact();
     }
+
+    public void validToken(String authorization) {
+
+    }
 }
