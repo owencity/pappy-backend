@@ -37,11 +37,13 @@ public class JwtHandshakeInterceptor implements ChannelInterceptor {
                            .map(authHeader -> authHeader.replace("Bearer " , "").trim())
                                    .orElseThrow(() -> new IllegalArgumentException("authorization header is missing"));
 
-           jwtUtil.validToken(token);
-
+           if(!jwtUtil.validToken(token)) {
+               return null;
+           }
            // 사숑자 정보 추출 및 세션 저장
-           String username = jwtUtil.getUsername(token);
-           String role = jwtUtil.getRole(token);
+           String username = Optional.ofNullable(jwtUtil.getUsername(token))
+                   .orElseThrow(() -> new IllegalArgumentException("Invalid token: missing username"));
+
            accessor.getSessionAttributes().put("username", username);
        }
        return message;

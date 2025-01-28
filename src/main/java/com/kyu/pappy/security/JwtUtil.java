@@ -45,7 +45,20 @@ public class JwtUtil {
                 .compact();
     }
 
-    public void validToken(String authorization) {
+    public boolean validToken(String token) {
+        try {
+            parseToken(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    private void parseToken(String token) {
+        Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

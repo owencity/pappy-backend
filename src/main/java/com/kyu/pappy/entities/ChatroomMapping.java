@@ -17,13 +17,12 @@ public class ChatroomMapping {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "chatroom_id")
     private Chatroom chatroom;
 
-    LocalDateTime lastCheckedAt;
 
 }
