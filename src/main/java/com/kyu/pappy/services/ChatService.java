@@ -1,8 +1,10 @@
 package com.kyu.pappy.services;
 
+import com.kyu.pappy.dtos.ChatMessageDto;
 import com.kyu.pappy.dtos.ChatroomDto;
 import com.kyu.pappy.entities.Chatroom;
 import com.kyu.pappy.entities.ChatroomMapping;
+import com.kyu.pappy.entities.Message;
 import com.kyu.pappy.entities.User;
 import com.kyu.pappy.repositories.ChatroomMappingRepository;
 import com.kyu.pappy.repositories.ChatroomRepository;
@@ -63,7 +65,7 @@ public class ChatService {
     }
 
 
-    public List<ChatroomDto> getChatroom(User user) {
+    public List<ChatroomDto> getChatroomList(User user) {
         List<ChatroomMapping> chatroomMappingList = chatroomMappingRepository.findAllByUserId(user.getId());
 
         List<ChatroomDto> chatroomDtoList;
@@ -79,6 +81,20 @@ public class ChatService {
                     );
                 }).toList();
         return chatroomDtoList;
+    }
+
+    public void saveMessage(String username, Long chatroomId, String text) {
+        Chatroom chatroom = chatroomRepository.findById(chatroomId).get();
+
+        Optional<User> saveUser = userRepository.findByUserEmail(username);
+
+        Message message = Message.builder()
+                .text(text)
+                .nickname(username)
+                .chatroomId(chatroom.getId())
+                .createAt(LocalDateTime.now())
+                .build();
+
     }
 
     public Optional<User> userFindByToken(String token) {

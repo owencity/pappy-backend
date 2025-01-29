@@ -19,7 +19,7 @@ public class Message {
     private String text;
     private LocalDateTime createAt;
     private String nickname;
-    private String chatroomId;
+    private Long chatroomId;
 
     @JoinColumn(name = "user_id")
     @ManyToOne
