@@ -1,5 +1,6 @@
 package com.kyu.pappy.services;
 
+import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.dtos.ChatMessageDto;
 import com.kyu.pappy.dtos.ChatroomDto;
 import com.kyu.pappy.entities.Chatroom;
@@ -41,15 +42,23 @@ public class ChatService {
                 .build();
         ChatroomDto createChatroom = ChatroomDto.from(chatroomRepository.save(chatroom));
         // 방이 생성된 이후 받은 token으로 user를 찾아 채팅입장 연관관계를 위해 저장합니다.
-        Optional<User> user = userFindByToken(token);
-        ChatroomMapping chatroomMapping = chatroom.addMember(user.orElse(null));
+        User user = userFindByToken(token)
+                .orElseThrow(UserNotFoundException::new);
+        ChatroomMapping chatroomMapping = chatroom.addMember(user);
         chatroomMappingRepository.save(chatroomMapping);
         // 최종적으로 chatroomMapping 저장됬을시 방을 생성합니다.
         return createChatroom;
     }
 
-    public Boolean joinChatroom(User user, Long newChatroomId) {
-            if(chatroomMappingRepository.existsByUserIdAndChatroomId(user.getId(), newChatroomId)) {
+    public Boolean joinChatroom(String token, Long newChatroomId, Long currentChatroomId) {
+
+        User user = userFindByToken(token)
+                .orElseThrow(UserNotFoundException::new);
+
+        if(currentChatroomId != null) {
+            updateLastCheckeAt(user, currentChatroomId)
+        }
+        if(chatroomMappingRepository.existsByUserIdAndChatroomId(user.getId(), newChatroomId)) {
                 return false;
             }
 
@@ -63,6 +72,33 @@ public class ChatService {
 
             return true;
     }
+
+    public Boolean leaveChatroom(String token, Long chatroomId) {
+        User user = userFindByToken(token)
+                .orElseThrow(UserNotFoundException::new);
+        if(!chatroomMappingRepository.existsByUserIdAndChatroomId(user.getId(), chatroomId)) {
+            return false;
+        }
+
+        chatroomMappingRepository.deleteByUserIdAndChatroomId(user.getId(), chatroomId);
+        return true;
+    }
+
+    private void updateLastCheckeAt(User user, Long currentChatroomId) {
+        if (currentChatroomId == null) {
+            return ;
+        }
+        ChatroomMapping chatroomMapping = chatroomMappingRepository.findByUserIdAndChatroomId(user.getId(),currentChatroomId)
+                .orElseThrow(UserNotFoundException::new);
+        // exception 처리 변경 필요
+        chatroomMapping.updateLastCheckedAt();
+
+        chatroomMappingRepository.save(chatroomMapping);
+
+
+    }
+
+
 
 
     public List<ChatroomDto> getChatroomList(User user) {

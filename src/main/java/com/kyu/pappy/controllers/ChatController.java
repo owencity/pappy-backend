@@ -10,18 +10,25 @@ import org.springframework.web.bind.annotation.*;
 public class ChatController {
 
     private final ChatService chatService;
-    private final JwtUtil jwtUtil;
+    private static final String JWT_HEADER = "Authorization";
 
-    public ChatController(ChatService chatService, JwtUtil jwtUtil) {
+    public ChatController(ChatService chatService) {
         this.chatService = chatService;
-        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping
     public ChatroomDto createChatroom(
-            @RequestHeader("Authorization") String token,
+            @RequestHeader(JWT_HEADER) String token,
             @RequestParam String title
     ) {
         return chatService.createChatroom(token, title);
+    }
+
+    @PostMapping("/{chatroomId}")
+    public Boolean joinChatroom(
+            @RequestHeader(JWT_HEADER) String token,
+            @PathVariable Long chatroomId,
+            @RequestParam(required = false) Long currentChatroomId) {
+        return chatService.joinChatroom(token, chatroomId, currentChatroomId);
     }
 }

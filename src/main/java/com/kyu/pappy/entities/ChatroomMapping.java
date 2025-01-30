@@ -24,5 +24,10 @@ public class ChatroomMapping {
     @JoinColumn(name = "chatroom_id")
     private Chatroom chatroom;
 
+    LocalDateTime lastCheckedAt;
+
+    public void updateLastCheckedAt() {
+        this.lastCheckedAt = LocalDateTime.now();
+    }
 
 }
