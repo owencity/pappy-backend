@@ -56,7 +56,7 @@ public class ChatService {
                 .orElseThrow(UserNotFoundException::new);
 
         if(currentChatroomId != null) {
-            updateLastCheckeAt(user, currentChatroomId)
+            updateLastCheckeAt(user, currentChatroomId);
         }
         if(chatroomMappingRepository.existsByUserIdAndChatroomId(user.getId(), newChatroomId)) {
                 return false;
@@ -102,24 +102,21 @@ public class ChatService {
 
 
     public List<ChatroomDto> getChatroomList(User user) {
-        List<ChatroomMapping> chatroomMappingList = chatroomMappingRepository.findAllByUserId(user.getId());
-
-        List<ChatroomDto> chatroomDtoList;
-        chatroomDtoList = chatroomMappingList.stream()
-                .map(chatroomMapping -> {
-                    Chatroom chatroom = chatroomMapping.getChatroom();
+        return chatroomMappingRepository.findAllByUserId(user.getId()).stream()
+                .map(mapping -> { // mapping -> chatroomMapping 객체
+                    Chatroom chatroom = mapping.getChatroom(); // chatroomMapping 에서 Chatroom 추출
                     return new ChatroomDto(
                             chatroom.getId(),
                             chatroom.getTitle(),
-                            null,
+                            chatroom.getHasNewMessage(),
                             chatroom.getChatroomMappingSet().size(),
                             chatroom.getCreateAt()
                     );
-                }).toList();
-        return chatroomDtoList;
+                })
+                .toList();
     }
 
-    public void saveMessage(String username, Long chatroomId, String text) {
+    public ChatMessageDto saveMessage(String username, Long chatroomId, String text) {
         Chatroom chatroom = chatroomRepository.findById(chatroomId).get();
 
         Optional<User> saveUser = userRepository.findByUserEmail(username);
@@ -130,7 +127,25 @@ public class ChatService {
                 .chatroomId(chatroom.getId())
                 .createAt(LocalDateTime.now())
                 .build();
+        // username -> nickname 변경 필요(회원가입 nickname 추가필요)
+        return ChatMessageDto.from(message);
+    }
 
+    public List<ChatMessageDto> getMessageList(Long chatroomId) {
+
+       return  messageRepository.findAllByChatroomId(chatroomId).stream()
+               .map(message -> { // message 객체에서 바로 값 추출
+                   return new ChatMessageDto(
+                           message.getNickname(),
+                           message.getText()
+                   );
+               })
+               .toList();
+    }
+
+    public ChatroomDto getChatroom(Long chatroomId) {
+        Chatroom chatroom = chatroomRepository.findById(chatroomId).get();
+        return ChatroomDto.from(chatroom);
     }
 
     public Optional<User> userFindByToken(String token) {
