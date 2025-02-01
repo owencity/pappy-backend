@@ -12,6 +12,7 @@ public record UserDto(
         @NotBlank(message = "이메일은 필수값입니다.")
         @Email(message = "유요한 이메일 값이 아닙니다.")
         String userEmail,
+        String nickname,
         String password,
         String confirmedPassword,
         @NotBlank(message = "사용자 입력값은 필수값입니다.")
@@ -24,6 +25,7 @@ public record UserDto(
     // DB에서 굳이 Dto로 비밀번호 가져올 이유없음 null
     public static UserDto from(User user) {
         return new UserDto(
+                user.getUserEmail(),
                 user.getUserEmail(),
                 null,
                 null,
@@ -39,6 +41,7 @@ public record UserDto(
                 .userEmail(userDto.userEmail())
                 .password(encodedPassword)
                 .username(userDto.username())
+                .nickname(userDto.nickname())
                 .role(userDto.role())
                 .gender(userDto.gender())
                 .createdAt(new Date())

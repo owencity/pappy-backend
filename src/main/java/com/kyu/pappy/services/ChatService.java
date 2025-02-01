@@ -1,5 +1,6 @@
 package com.kyu.pappy.services;
 
+import com.kyu.pappy.config.exceptions.chat.ChatroomNotFoundException;
 import com.kyu.pappy.config.exceptions.user.UserNotFoundException;
 import com.kyu.pappy.dtos.ChatMessageDto;
 import com.kyu.pappy.dtos.ChatroomDto;
@@ -101,7 +102,11 @@ public class ChatService {
 
 
 
-    public List<ChatroomDto> getChatroomList(User user) {
+    public List<ChatroomDto> getChatroomList(String token) {
+        User user = userFindByToken(token).orElseThrow(
+                () -> new UserNotFoundException(token)
+        );
+
         return chatroomMappingRepository.findAllByUserId(user.getId()).stream()
                 .map(mapping -> { // mapping -> chatroomMapping 객체
                     Chatroom chatroom = mapping.getChatroom(); // chatroomMapping 에서 Chatroom 추출
@@ -116,19 +121,20 @@ public class ChatService {
                 .toList();
     }
 
-    public ChatMessageDto saveMessage(String username, Long chatroomId, String text) {
-        Chatroom chatroom = chatroomRepository.findById(chatroomId).get();
-
-        Optional<User> saveUser = userRepository.findByUserEmail(username);
+    public boolean saveMessage(String nickname, Long chatroomId, String text) {
+        Chatroom chatroom = chatroomRepository.findById(chatroomId).
+                orElseThrow(() -> new ChatroomNotFoundException(chatroomId));
 
         Message message = Message.builder()
                 .text(text)
-                .nickname(username)
+                .nickname(nickname)
                 .chatroomId(chatroom.getId())
                 .createAt(LocalDateTime.now())
                 .build();
         // username -> nickname 변경 필요(회원가입 nickname 추가필요)
-        return ChatMessageDto.from(message);
+        messageRepository.save(message);
+
+        return true;
     }
 
     public List<ChatMessageDto> getMessageList(Long chatroomId) {
@@ -144,7 +150,8 @@ public class ChatService {
     }
 
     public ChatroomDto getChatroom(Long chatroomId) {
-        Chatroom chatroom = chatroomRepository.findById(chatroomId).get();
+        Chatroom chatroom = chatroomRepository.findById(chatroomId)
+                .orElseThrow(() -> new ChatroomNotFoundException(chatroomId));
         return ChatroomDto.from(chatroom);
     }
 

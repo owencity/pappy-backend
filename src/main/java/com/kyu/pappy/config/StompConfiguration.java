@@ -28,7 +28,10 @@ public class StompConfiguration implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/pub");
+        // 클라이언트가 SEND 할때 /pub 로 시작하는 모든 경로는 MessageMapping과 매칭됨
+        // 실제로 컨트롤러에서는 /pub이 자동으로 제거된 상태로 처리
         registry.enableSimpleBroker("/sub");
+
     }
 
     @Override

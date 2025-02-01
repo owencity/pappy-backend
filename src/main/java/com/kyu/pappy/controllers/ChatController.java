@@ -1,9 +1,11 @@
 package com.kyu.pappy.controllers;
 
+import com.kyu.pappy.dtos.ChatMessageDto;
 import com.kyu.pappy.dtos.ChatroomDto;
-import com.kyu.pappy.security.JwtUtil;
 import com.kyu.pappy.services.ChatService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/chats")
 @RestController
@@ -30,5 +32,20 @@ public class ChatController {
             @PathVariable Long chatroomId,
             @RequestParam(required = false) Long currentChatroomId) {
         return chatService.joinChatroom(token, chatroomId, currentChatroomId);
+    }
+
+    @DeleteMapping("/{chatroomId}")
+    public Boolean leaveChatroom(@RequestHeader(JWT_HEADER) String token, @PathVariable Long chatroomId) {
+        return chatService.leaveChatroom(token, chatroomId);
+    }
+
+    @GetMapping
+    public List<ChatroomDto> getChatroomList(@RequestHeader(JWT_HEADER) String token) {
+        return chatService.getChatroomList(token);
+    }
+
+    @GetMapping("/{chatroomId}/message")
+    public List<ChatMessageDto> getMessageList(@PathVariable Long chatroomId) {
+        return chatService.getMessageList(chatroomId);
     }
 }

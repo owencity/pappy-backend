@@ -30,19 +30,22 @@ public class StompController {
     }
 
     @MessageMapping("/chats/{chatroomId}")
-    @SendTo("/sub/chats/{chatroomId}")
+    @SendTo("/sub/chats/{chatroomId}") // 구독한 클라이언트에게 메세지 전송
     public ChatMessageDto ChatMessage(
             SimpMessageHeaderAccessor headerAccessor,
             @DestinationVariable Long chatroomId,
             @Payload Map<String ,String> payload
             ) {
-        String username = (String) headerAccessor.getSessionAttributes().get("username");
-        if(username == null) {
+        String nickname = (String) headerAccessor.getSessionAttributes().get("username");
+        if(nickname == null) {
             throw new IllegalArgumentException("User not logged in");
         }
+        boolean isSaved = chatService.saveMessage(nickname, chatroomId, payload.get("message"));
+        if(!isSaved) {
+            throw new RuntimeException("Message save failed");
+        }
 
-        chatService.saveMessage(username, chatroomId, payload.get("message"));
-        messagingTemplate.convertAndSend("/sub/chats/{chatroomId}", payload.get("message"));
-        return new ChatMessageDto(username, payload.get("message"));
+        //        messagingTemplate.convertAndSend("/sub/chats/{chatroomId}", payload.get("message")); // SendTo 사용중, 필요없는 코드?
+        return new ChatMessageDto(nickname, payload.get("message"));
     }
 }
