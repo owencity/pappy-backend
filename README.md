@@ -7,7 +7,7 @@
 
 
 # Diagram 
-![pappy diagram](https://github.com/user-attachments/assets/488c3bc6-3e01-4135-aa5e-4cd7de1534ef)
+![pappy diagram](https://github.com/user-attachments/assets/339250d5-4d40-4d08-819b-90dc135011a8)
 
 ## 기술 스택
 

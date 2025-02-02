@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Message {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,6 @@ public class Message {
     private String text;
     private LocalDateTime createAt;
     private String nickname;
-    private Long chatroomId;
 
     @JoinColumn(name = "user_id")
     @ManyToOne

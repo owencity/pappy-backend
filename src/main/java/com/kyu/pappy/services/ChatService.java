@@ -128,7 +128,7 @@ public class ChatService {
         Message message = Message.builder()
                 .text(text)
                 .nickname(nickname)
-                .chatroomId(chatroom.getId())
+                .chatroom(chatroom)
                 .createAt(LocalDateTime.now())
                 .build();
         // username -> nickname 변경 필요(회원가입 nickname 추가필요)
