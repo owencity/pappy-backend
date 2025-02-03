@@ -1,5 +1,6 @@
 # pappy-backend
-개인프로젝트 - pappy! 
+개인프로젝트 - pappy
+봉사 캠페인 참여 및 후기 웹플랫폼
 
 # 구성도
 ![pappy infra](https://github.com/user-attachments/assets/85a06d48-58ba-4b4d-97b8-e7d45aa165e3)

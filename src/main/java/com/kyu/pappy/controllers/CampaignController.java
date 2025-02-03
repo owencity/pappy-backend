@@ -57,6 +57,6 @@ public class CampaignController {
     @DeleteMapping("/delete/{campaignId}")
     public void deleteCampaign(@PathVariable Long campaignId, Authentication authentication) {
 
-        campaignService.deleteCampaign(campaignId, (User) authentication.getPrincipal());
+        campaignService.deleteCampaign(campaignId, (User)authentication.getPrincipal());
     }
 }
