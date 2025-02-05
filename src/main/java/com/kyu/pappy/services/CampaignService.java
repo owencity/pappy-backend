@@ -8,7 +8,9 @@ import com.kyu.pappy.model.pagenation.PageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
 import com.kyu.pappy.repositories.CampaignRepository;
 import com.kyu.pappy.repositories.UserRepository;
+import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.utils.PaginationUtils;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,10 +59,13 @@ public class CampaignService {
     }
 
     @Transactional
-    public CampaignDto updateCampaign (Long productId, StoryPatchRequestBody storyPatchRequestBody, String currentUser) {
+    public CampaignDto updateCampaign (
+            Long productId,
+            StoryPatchRequestBody storyPatchRequestBody,
+            Authentication auth) {
 
-
-
+        CustomUserDetails currentUserDetails = (CustomUserDetails) auth.getPrincipal();
+        String currentUser = currentUserDetails.getUsername();
         Campaign findCampaign = campaignRepository.findById(productId).orElseThrow( () -> new RuntimeException("Product not found"));
         userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
 
@@ -72,7 +77,8 @@ public class CampaignService {
         return CampaignDto.from(findCampaign);
     }
 
-    public void deleteCampaign (Long productId, User currentUser) {
+    public void deleteCampaign (Long productId, Authentication auth) {
+
         Campaign findCampaign = campaignRepository.findById(productId).orElseThrow( () -> new RuntimeException("Product not found"));
 
         campaignRepository.delete(findCampaign);

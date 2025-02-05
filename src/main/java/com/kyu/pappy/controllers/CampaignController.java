@@ -16,7 +16,7 @@ public class CampaignController {
 
     private final CampaignService campaignService;
 
-    public CampaignController(CampaignService campaignService) {
+    public CampaignController(CampaignService campaignService)   {
         this.campaignService = campaignService;
     }
 
@@ -30,33 +30,28 @@ public class CampaignController {
 
     @GetMapping("/{campaignId}")
     public CampaignDto getCampaignById (@PathVariable("campaignId") long campaignId) {
-
-
         return campaignService.getCampaignById(campaignId);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCampaign(@RequestBody CampaignDto createDto) {
-        try {
-            CampaignDto savedProduct = campaignService.createCampaign(createDto);
-            return ResponseEntity.ok(savedProduct);
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create product" + e.getMessage());
-        }
+    public CampaignDto createCampaign(@RequestBody CampaignDto createDto) {
+            return campaignService.createCampaign(createDto);
     }
 
     @PatchMapping("/update/{campaignId}")
-    public ResponseEntity<CampaignDto> updateCampaign(@PathVariable("campaignId") Long productId, @RequestBody StoryPatchRequestBody storyPatchRequestBody, Authentication authentication) {
+    public ResponseEntity<CampaignDto> updateCampaign(
+            @PathVariable("campaignId") Long productId,
+            @RequestBody StoryPatchRequestBody storyPatchRequestBody,
+            Authentication authentication) {
 
-        CustomUserDetails  currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        String username = currentUserDetails.getUsername();
-        var updateProduct = campaignService.updateCampaign(productId , storyPatchRequestBody, username);
+
+        var updateProduct = campaignService.updateCampaign(productId , storyPatchRequestBody, authentication);
         return ResponseEntity.ok(updateProduct);
     }
 
     @DeleteMapping("/delete/{campaignId}")
     public void deleteCampaign(@PathVariable Long campaignId, Authentication authentication) {
 
-        campaignService.deleteCampaign(campaignId, (User)authentication.getPrincipal());
+        campaignService.deleteCampaign(campaignId,authentication);
     }
 }

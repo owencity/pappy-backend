@@ -1,7 +1,6 @@
 package com.kyu.pappy.controllers;
 
 import com.kyu.pappy.dtos.ChatMessageDto;
-import com.kyu.pappy.entities.User;
 import com.kyu.pappy.services.ChatService;
 import com.kyu.pappy.services.UserService;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -11,10 +10,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class StompController {

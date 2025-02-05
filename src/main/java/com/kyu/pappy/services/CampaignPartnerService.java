@@ -7,6 +7,8 @@ import com.kyu.pappy.entities.User;
 import com.kyu.pappy.repositories.CampaignPartnerRepository;
 import com.kyu.pappy.repositories.CampaignRepository;
 import com.kyu.pappy.repositories.UserRepository;
+import com.kyu.pappy.security.CustomUserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,8 +24,11 @@ public class CampaignPartnerService {
         this.campaignRepository = campaignRepository;
     }
 
-    public CampaignPartnerDto savePartner( String userEmail, Long campaignId) {
+    public CampaignPartnerDto savePartner(Authentication auth, Long campaignId) {
 
+        // 받은 jwt로 CustomuserDetails 통해 context에있는 user정보 불러와서 username 저장
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        String userEmail = userDetails.getUsername();
         // 중복되지않았으면 user정보 반환 , campaign 동일
         User findUser = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new RuntimeException("user_id Not found"));
         Campaign findCampaign = campaignRepository.findById(campaignId).orElseThrow(() -> new RuntimeException("user_id Not found"));
