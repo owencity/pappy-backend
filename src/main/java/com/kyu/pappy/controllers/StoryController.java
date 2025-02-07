@@ -36,11 +36,10 @@ public class StoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createStory(@RequestBody StoryDto createDto, Authentication authentication) {
+    public ResponseEntity<?> createStory(@RequestBody StoryDto createDto, Authentication auth) {
         try {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            String userEmail = userDetails.getUsername();
-            StoryDto savedStory = storyService.createStory(createDto, userEmail);
+
+            StoryDto savedStory = storyService.createStory(createDto, auth);
             return ResponseEntity.ok(savedStory);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create product" + e.getMessage());
@@ -48,19 +47,16 @@ public class StoryController {
     }
 
     @PatchMapping("/update/{storyId}")
-    public ResponseEntity<StoryDto> updateStory(@PathVariable("storyId") Long storyId, @RequestBody StoryPatchRequestBody storyPatchRequestBody , Authentication authentication) {
+    public ResponseEntity<StoryDto> updateStory(@PathVariable("storyId") Long storyId, @RequestBody StoryPatchRequestBody storyPatchRequestBody , Authentication auth) {
 
-        CustomUserDetails  currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        String username = currentUserDetails.getUsername();
-        var updateStory = storyService.updateStory(storyId , storyPatchRequestBody, username);
+
+        var updateStory = storyService.updateStory(storyId , storyPatchRequestBody, auth);
         return ResponseEntity.ok(updateStory);
     }
 
     @DeleteMapping("/delete/{storyId}")
-    public void deleteStory(@PathVariable("storyId") Long storyId, Authentication authentication) {
+    public void deleteStory(@PathVariable("storyId") Long storyId, Authentication auth) {
 
-        CustomUserDetails  currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        String username = currentUserDetails.getUsername();
-        storyService.deleteStory(storyId, username);
+        storyService.deleteStory(storyId, auth);
     }
 }

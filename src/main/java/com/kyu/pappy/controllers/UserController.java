@@ -29,10 +29,10 @@ public class UserController {
             UserAuthenticationResponse res =  userSignUpService.registerUser(userDto); // 받은 jwt 객체 , res에 저장
             TokenResponseHelper.addTokensToResponse(response, res);
             // jwt 헤더, 쿠키반환위한 메서드 , 받은 jwt 클라이언트에 헤더(access) 와 쿠키(refresh)로 전달
-
             return ResponseEntity.ok("회원가입 및 로그인 완료");
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body("회원가입 실패: " + e.getMessage());
         }
+        // try catch 말고 서비스쪽에서 exception?
     }
 }

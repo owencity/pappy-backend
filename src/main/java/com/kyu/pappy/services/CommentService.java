@@ -8,6 +8,8 @@ import com.kyu.pappy.entities.User;
 import com.kyu.pappy.repositories.CommentRepository;
 import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.repositories.UserRepository;
+import com.kyu.pappy.security.CustomUserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +27,13 @@ public class CommentService {
         this.storyRepository = storyRepository;
     }
 
-    public CommentDto saveComment(CommentDto commentDto, Long campaignId, String username, Long parentId ) {
+    public CommentDto saveComment(CommentDto commentDto, Long campaignId, Authentication auth, Long parentId ) {
 
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        String userEmail = userDetails.getUsername();
         // 1. 사용자 확인
-        User user = userRepository.findByUserEmail(username).orElseThrow(
-                () -> new UserNotFoundException(username)
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(
+                () -> new UserNotFoundException(userEmail)
         );
 
         // 2. 스토리 확인
@@ -55,4 +59,12 @@ public class CommentService {
                 .toList();
     }
 
+    public void deleteComment(Long commentId, Authentication auth) {
+        CustomUserDetails currentUser = (CustomUserDetails) auth.getPrincipal();
+        String userEmail = currentUser.getUsername();
+        User foundUser = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
+        if (foundUser != null) {
+            commentRepository.deleteById(commentId);
+        }
+    }
 }

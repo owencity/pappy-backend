@@ -10,7 +10,9 @@ import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
 import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.repositories.UserRepository;
+import com.kyu.pappy.security.CustomUserDetails;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,8 +82,11 @@ public class StoryService {
 
 
 
-    public StoryDto createStory (StoryDto storyDto, String userEmail) {
+    public StoryDto createStory (StoryDto storyDto, Authentication auth) {
 
+
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        String userEmail = userDetails.getUsername();
         // user 중복확인위한 코드 , customException으로 확인
         User findUser = userRepository.findByUserEmail(userEmail).orElseThrow(UserNotFoundException::new);
 
@@ -94,8 +99,11 @@ public class StoryService {
     }
 
     @Transactional
-    public StoryDto updateStory (Long storyId, StoryPatchRequestBody storyPatchRequestBody, String currentUser) {
+    public StoryDto updateStory (Long storyId, StoryPatchRequestBody storyPatchRequestBody, Authentication auth) {
 
+
+        CustomUserDetails  currentUserDetails = (CustomUserDetails) auth.getPrincipal();
+        String currentUser = currentUserDetails.getUsername();
         // 1. 스토리 조회
         Story findStory = storyRepository.findById(storyId).orElseThrow( () -> new RuntimeException("Story not found"));
         // 2. 사용자 확인
@@ -106,10 +114,8 @@ public class StoryService {
         /*
             영속성 컨텍스트에서 변경감지 -> flush 시점에 UPDATE 쿼리
          */
-
         // 4. 기존 캐시 삭제
         invalidateStoryCache(findStory.getId());
-
         // 5. 수정된 데이터 캐싱
         String cacheKey = "story:" + storyId;
         redisTemplate.opsForValue().set(cacheKey, storyPatchRequestBody, 10 , TimeUnit.MINUTES);
@@ -118,9 +124,15 @@ public class StoryService {
         return StoryDto.from(findStory);
     }
 
-    public void deleteStory (Long storyId, String currentUser) {
+    public void deleteStory (Long storyId, Authentication auth) {
+
+        CustomUserDetails currentUserDetails = (CustomUserDetails) auth.getPrincipal();
+        String currentUser = currentUserDetails.getUsername();
         Story findStory = storyRepository.findById(storyId).orElseThrow( () -> new RuntimeException("Product not found"));
-        userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
-       storyRepository.delete(findStory);
+        User user = userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
+        if(user != null) {
+            storyRepository.delete(findStory);
+        }
+
     }
 }

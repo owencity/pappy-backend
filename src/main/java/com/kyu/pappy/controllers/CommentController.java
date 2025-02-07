@@ -21,10 +21,14 @@ public class CommentController {
 
     @PostMapping("/write")
     public CommentDto SaveComment(@RequestBody CommentDto commentdto, Authentication auth) {
-        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-        String username = userDetails.getUsername();
 
-        return commentService.saveComment(commentdto, commentdto.storyId() , username, commentdto.parentId());
+
+        return commentService.saveComment(commentdto, commentdto.storyId() ,auth, commentdto.parentId());
+    }
+
+    @DeleteMapping("/delete/{commentId}")
+    public void DeleteComment(@PathVariable Long commentId, Authentication auth) {
+        commentService.deleteComment(commentId, auth);
     }
 
     // 대댓글 불러오기
