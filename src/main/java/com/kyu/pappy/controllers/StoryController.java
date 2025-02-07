@@ -36,27 +36,18 @@ public class StoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createStory(@RequestBody StoryDto createDto, Authentication auth) {
-        try {
-
-            StoryDto savedStory = storyService.createStory(createDto, auth);
-            return ResponseEntity.ok(savedStory);
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create product" + e.getMessage());
-        }
+    public StoryDto createStory(@RequestBody StoryDto createDto, Authentication auth) {
+            return storyService.createStory(createDto, auth);
     }
 
     @PatchMapping("/update/{storyId}")
     public ResponseEntity<StoryDto> updateStory(@PathVariable("storyId") Long storyId, @RequestBody StoryPatchRequestBody storyPatchRequestBody , Authentication auth) {
-
-
         var updateStory = storyService.updateStory(storyId , storyPatchRequestBody, auth);
         return ResponseEntity.ok(updateStory);
     }
 
     @DeleteMapping("/delete/{storyId}")
     public void deleteStory(@PathVariable("storyId") Long storyId, Authentication auth) {
-
         storyService.deleteStory(storyId, auth);
     }
 }

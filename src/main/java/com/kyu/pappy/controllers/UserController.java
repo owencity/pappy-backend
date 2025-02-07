@@ -33,6 +33,6 @@ public class UserController {
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body("회원가입 실패: " + e.getMessage());
         }
-        // try catch 말고 서비스쪽에서 exception?
+
     }
 }
