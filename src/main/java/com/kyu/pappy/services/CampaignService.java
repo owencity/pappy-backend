@@ -63,7 +63,6 @@ public class CampaignService {
             Long productId,
             StoryPatchRequestBody storyPatchRequestBody,
             Authentication auth) {
-
         CustomUserDetails currentUserDetails = (CustomUserDetails) auth.getPrincipal();
         String currentUser = currentUserDetails.getUsername();
         Campaign findCampaign = campaignRepository.findById(productId).orElseThrow( () -> new RuntimeException("Product not found"));

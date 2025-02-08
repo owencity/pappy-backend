@@ -57,7 +57,7 @@ public class ChatService {
                 .orElseThrow(UserNotFoundException::new);
 
         if(currentChatroomId != null) {
-            updateLastCheckeAt(user, currentChatroomId);
+            updateLastCheckedAt(user, currentChatroomId);
         }
         if(chatroomMappingRepository.existsByUserIdAndChatroomId(user.getId(), newChatroomId)) {
                 return false;
@@ -85,7 +85,7 @@ public class ChatService {
         return true;
     }
 
-    private void updateLastCheckeAt(User user, Long currentChatroomId) {
+    private void updateLastCheckedAt(User user, Long currentChatroomId) {
         if (currentChatroomId == null) {
             return ;
         }
@@ -98,9 +98,6 @@ public class ChatService {
 
 
     }
-
-
-
 
     public List<ChatroomDto> getChatroomList(String token) {
         User user = userFindByToken(token).orElseThrow(

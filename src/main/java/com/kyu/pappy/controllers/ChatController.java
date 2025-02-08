@@ -39,6 +39,11 @@ public class ChatController {
         return chatService.leaveChatroom(token, chatroomId);
     }
 
+    @GetMapping("/{chatroomId}")
+    public ChatroomDto getChatroom(@PathVariable Long chatroomId) {
+        return chatService.getChatroom(chatroomId);
+    }
+
     @GetMapping
     public List<ChatroomDto> getChatroomList(@RequestHeader(JWT_HEADER) String token) {
         return chatService.getChatroomList(token);
