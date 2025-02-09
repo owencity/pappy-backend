@@ -5,6 +5,7 @@ import com.kyu.pappy.dtos.CommentDto;
 import com.kyu.pappy.entities.Comment;
 import com.kyu.pappy.entities.Story;
 import com.kyu.pappy.entities.User;
+import com.kyu.pappy.model.comment.CommentRequestBody;
 import com.kyu.pappy.repositories.CommentRepository;
 import com.kyu.pappy.repositories.StoryRepository;
 import com.kyu.pappy.repositories.UserRepository;
@@ -66,5 +67,19 @@ public class CommentService {
         if (foundUser != null) {
             commentRepository.deleteById(commentId);
         }
+    }
+
+    public void updateComment(Long commentId, Authentication auth, CommentRequestBody commentRequestBody) {
+    CustomUserDetails customUserDetails =  (CustomUserDetails) auth.getPrincipal();
+    String currentUser = customUserDetails.getUsername();
+    // 현 사용자 가져오기
+    User findUser = userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
+    // 현 사용자 확인
+    Comment findComment = commentRepository.findById(commentId).orElseThrow( () -> new RuntimeException("Comment not found" + commentId));
+    // 받은 commentId 가져오기
+    if(findUser != null && findComment != null) {
+        findComment.changeComment(commentRequestBody.comment());
+    }
+    // user , comment 일치하다면 댓글 수정
     }
 }

@@ -39,4 +39,8 @@ public class Comment {
     // 대댓글 리스트(자식 댓글)
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
+
+    public void changeComment(String updateComment) {
+        this.comment = updateComment;
+    }
 }
