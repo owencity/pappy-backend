@@ -5,8 +5,6 @@
 # 구성도
 ![pappy infra](https://github.com/user-attachments/assets/85a06d48-58ba-4b4d-97b8-e7d45aa165e3)
 
-
-
 # Diagram 
 ![pappy diagram](https://github.com/user-attachments/assets/339250d5-4d40-4d08-819b-90dc135011a8)
 
@@ -22,7 +20,7 @@
 - React
 
 ### 🗃️ 데이터베이스
-- PostgreSQL
+- MySQL
 - Redis
 
 ### 🖥️ 서버 및 인프라

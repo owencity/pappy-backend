@@ -2,15 +2,15 @@ package com.kyu.pappy.controllers;
 
 import com.kyu.pappy.model.user.UserAuthenticationResponse;
 import com.kyu.pappy.dtos.UserDto;
+import com.kyu.pappy.model.user.UserDeleteRequest;
+import com.kyu.pappy.services.UserService;
 import com.kyu.pappy.services.UserSignUpService;
 import com.kyu.pappy.utils.TokenResponseHelper;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -34,5 +34,10 @@ public class UserController {
             return ResponseEntity.badRequest().body("회원가입 실패: " + e.getMessage());
         }
 
+    }
+
+    @DeleteMapping("/deleteUser")
+    public void deleteUser(@RequestBody UserDeleteRequest userDeleteRequest, Authentication auth) {
+        UserService.deleteUser(userDeleteRequest, auth);
     }
 }
