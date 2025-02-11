@@ -1,7 +1,7 @@
 # pappy-backend
 개인프로젝트 - pappy
-봉사 캠페인 참여 및 후기 웹플랫폼
-
+봉사 캠페인 참여 및 후기 웹플랫폼 
+ver 0.1 WebSocket 채팅 기능 추가
 # 구성도
 ![pappy infra](https://github.com/user-attachments/assets/85a06d48-58ba-4b4d-97b8-e7d45aa165e3)
 
@@ -25,6 +25,7 @@
 
 ### 🖥️ 서버 및 인프라
 - Nginx
+- Docker
 - AWS
     - EC2
     - S3
@@ -35,11 +36,9 @@
 - AWS CodeDeploy
 
 # API Documentation
-
-API 관련 상세한 정보는 아래의 Google Sheets 문서를 참고하세요:
-
+- Google docs
 - [API Documentation (Google Sheets)](https://docs.google.com/spreadsheets/d/1_hFok928_HgFlFAQqNh2XMTB8H2Wp9du-uAcDRhAkY4/edit?usp=sharing)
 
 # 개발 기록 및 관리 문서 
-
+- Notion
 - [Dev Documentation (Notion)](https://boiling-barge-9f5.notion.site/1605b4390d98804cb2e5d5ea8adff484)
