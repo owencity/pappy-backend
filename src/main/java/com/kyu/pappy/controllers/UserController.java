@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserSignUpService userSignUpService;
+    private final UserService userService;
 
-    public UserController(UserSignUpService userSignUpService) {
+    public UserController(UserSignUpService userSignUpService, UserService userService) {
         this.userSignUpService = userSignUpService;
+        this.userService = userService;
     }
 
 
@@ -38,6 +40,6 @@ public class UserController {
 
     @DeleteMapping("/deleteUser")
     public void deleteUser(@RequestBody UserDeleteRequest userDeleteRequest, Authentication auth) {
-        UserService.deleteUser(userDeleteRequest, auth);
+        userService.deleteUser(userDeleteRequest, auth);
     }
 }

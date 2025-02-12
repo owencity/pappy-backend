@@ -9,15 +9,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void deleteUser(UserDeleteRequest userDeleteRequest, Authentication auth) {
@@ -25,7 +28,12 @@ public class UserService implements UserDetailsService {
         String currentUser = findUser.getUsername();
 
         User user = userRepository.findByUserEmail(currentUser).orElseThrow(() -> new UserNotFoundException(currentUser));
-        userRepository.delete(user);
+        if(!passwordEncoder.matches(userDeleteRequest.password(), currentUser)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+
+        }
+        userRepository.deleteById(user.getId());
+
     }
 
     @Override
