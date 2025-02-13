@@ -3,7 +3,6 @@ package com.kyu.pappy.controllers;
 import com.kyu.pappy.dtos.StoryDto;
 import com.kyu.pappy.model.story.StoryPageResponse;
 import com.kyu.pappy.model.story.StoryPatchRequestBody;
-import com.kyu.pappy.security.CustomUserDetails;
 import com.kyu.pappy.services.StoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,12 +25,11 @@ public class StoryController {
             @RequestParam(name = "page") int page,
             @RequestParam(name = "size") int size
     ) {
-
         return storyService.getStoryPaged(page, size);
     }
 
     @GetMapping("/{storyId}")
-    public StoryDto getStoryById (@PathVariable("storyId") long storyId) throws InterruptedException {
+    public StoryDto getStoryById (@PathVariable("storyId") long storyId) {
         return storyService.getStoryById(storyId);
     }
 

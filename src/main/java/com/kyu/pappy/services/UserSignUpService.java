@@ -27,6 +27,9 @@ public class UserSignUpService {
     // 회원가입 완료시 JWT 발급 하면서 로그인 고려
     public UserAuthenticationResponse registerUser(UserDto userDto) {
 
+        if(userDto.userEmail() == null || userDto.password() == null) {
+            throw new IllegalArgumentException("이메일과 비밀번호는 필수 입력입니다.");
+        }
         // Email(아이디) 중복확인
         String userEmail = userDto.userEmail();
         userRepository
