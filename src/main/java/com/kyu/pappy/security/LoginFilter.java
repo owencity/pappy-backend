@@ -38,7 +38,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             String userEmail = jsonNode.get("userEmail").textValue();
             String password = jsonNode.get("password").textValue();
 
-
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userEmail, password , null);
 
             return authenticationManager.authenticate(authToken);

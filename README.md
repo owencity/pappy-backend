@@ -2,6 +2,12 @@
 개인프로젝트 - pappy
 봉사 캠페인 참여 및 후기 웹플랫폼 
 ver 0.1 WebSocket 채팅 기능 추가
+
+### 2/16 추가 정리
+1. docker 이원화 도입
+2. 추가기능 어떤게 좋을지 고려
+3. 안드로이드 추가도 고려
+
 # 구성도
 ![pappy infra](https://github.com/user-attachments/assets/85a06d48-58ba-4b4d-97b8-e7d45aa165e3)
 
