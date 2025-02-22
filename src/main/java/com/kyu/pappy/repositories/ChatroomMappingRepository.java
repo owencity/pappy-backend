@@ -10,6 +10,5 @@ public interface ChatroomMappingRepository extends JpaRepository<ChatroomMapping
     Boolean existsByUserIdAndChatroomId(Long userId, Long chatroomId);
     void deleteByUserIdAndChatroomId(Long userId, Long chatroomId);
     List<ChatroomMapping> findAllByUserId(Long userId);
-
     Optional<ChatroomMapping> findByUserIdAndChatroomId(Long userId, Long chatroomId);
 }
