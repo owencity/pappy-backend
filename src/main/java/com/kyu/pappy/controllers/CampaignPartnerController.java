@@ -20,7 +20,6 @@ public class CampaignPartnerController {
     public CampaignPartnerDto savePartner(
             @PathVariable("campaignId") Long campaignId,
             Authentication authentication) {
-
         return campaignPartnerService.savePartner(authentication, campaignId);
     }
 

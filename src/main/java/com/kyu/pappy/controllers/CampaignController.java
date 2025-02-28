@@ -30,7 +30,7 @@ public class CampaignController {
 
     @GetMapping("/{campaignId}")
     public CampaignDto getCampaignById (@PathVariable("campaignId") long campaignId) {
-        return campaignService.getCampaignById(campaignId);
+        return campaignService  .getCampaignById(campaignId);
     }
 
     @PostMapping("/create")
@@ -44,14 +44,12 @@ public class CampaignController {
             @RequestBody StoryPatchRequestBody storyPatchRequestBody,
             Authentication authentication) {
 
-
         var updateProduct = campaignService.updateCampaign(productId , storyPatchRequestBody, authentication);
         return ResponseEntity.ok(updateProduct);
     }
 
     @DeleteMapping("/delete/{campaignId}")
     public void deleteCampaign(@PathVariable Long campaignId, Authentication authentication) {
-
         campaignService.deleteCampaign(campaignId,authentication);
     }
 }
