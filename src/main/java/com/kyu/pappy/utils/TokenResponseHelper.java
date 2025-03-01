@@ -8,7 +8,7 @@ public class TokenResponseHelper {
 
     public static void addTokensToResponse(HttpServletResponse response, UserAuthenticationResponse token) {
 
-        response.setHeader("Authorization", "Bearer " + token.accessToken());
+        response.setHeader(JwtContains.JWT_HEADER, "Bearer " + token.accessToken());
         // refresh token 쿠키로 설정
         response.addCookie(createCookie(token.refreshToken()));
     }
