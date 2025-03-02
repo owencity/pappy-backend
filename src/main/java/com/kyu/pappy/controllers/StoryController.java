@@ -41,7 +41,9 @@ public class StoryController {
     @PatchMapping("/update/{storyId}")
     public ResponseEntity<StoryDto> updateStory(@PathVariable("storyId") Long storyId, @RequestBody StoryPatchRequestBody storyPatchRequestBody , Authentication auth) {
         var updateStory = storyService.updateStory(storyId , storyPatchRequestBody, auth);
+        var updates = updateStory;
         return ResponseEntity.ok(updateStory);
+
     }
 
     @DeleteMapping("/delete/{storyId}")

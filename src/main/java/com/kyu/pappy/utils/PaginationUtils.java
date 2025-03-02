@@ -6,9 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class PaginationUtils {
-
     private PaginationUtils() {
-
     }
 
     public static <T>PageResponse <T> toPageResponse(List<T> allData, int page, int size ) {
